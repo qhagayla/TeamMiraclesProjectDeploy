@@ -32,7 +32,7 @@ dir
 pip install -r requirements.txt
 ```
 ## Install postgre --> https://www.postgresql.org/download/windows/
-search in the window "pgAdmin 4" and then create database
+## Search in the Window "pgAdmin 4" and then create database
 
 ## Click on the server properties and go to connection
 
