@@ -10,9 +10,9 @@ Current features
 # Installation
 
 ## Seach Terminal in the Window
-'''
+```
 git clone https://github.com/adilmohak/django-lms.git
-'''
+```
 '''
 cd django-lms
 '''
