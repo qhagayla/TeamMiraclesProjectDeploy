@@ -3,12 +3,12 @@ from .views import *
 
 
 urlpatterns = [
-    # Program urls
-    path('', program_view, name='programs'),
-    path('<int:pk>/detail/', program_detail, name='program_detail'),
-    path('add/', program_add, name='add_program'),
-    path('<int:pk>/edit/', program_edit, name='edit_program'),
-    path('<int:pk>/delete/', program_delete, name='program_delete'),
+    # Stratum urls
+    path('', stratum_view, name='stratums'),
+    path('<int:pk>/detail/', stratum_detail, name='stratum_detail'),
+    path('add/', stratum_add, name='add_stratum'),
+    path('<int:pk>/edit/', stratum_edit, name='edit_stratum'),
+    path('<int:pk>/delete/', stratum_delete, name='stratum_delete'),
 
     # Course urls
     path('course/<slug>/detail/', course_single, name='course_detail'),

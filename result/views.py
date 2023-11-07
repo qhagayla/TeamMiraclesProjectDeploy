@@ -92,7 +92,7 @@ def add_score_for(request, id):
             # print(student)
             # print(student.student)
             # print(student.student.section.id)
-            courses = Course.objects.filter(status=student.student.status).filter(program__pk=student.student.section.id).filter(
+            courses = Course.objects.filter(status=student.student.status).filter(stratum__pk=student.student.section.id).filter(
                 semester=current_semester)  # all courses of a specific status in current semester
             total_credit_in_semester = 0
             for i in courses:

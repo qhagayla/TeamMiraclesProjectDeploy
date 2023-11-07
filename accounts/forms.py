@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm, Password
 # from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordResetForm
 
-from course.models import Program
+from course.models import Stratum
 # from .models import User, Student, STATUS
 from .models import *
 
@@ -125,7 +125,7 @@ class StudentAddForm(UserCreationForm):
     )
 
     section = forms.ModelChoiceField(
-        queryset=Program.objects.all(),
+        queryset=Stratum.objects.all(),
         widget=forms.Select(attrs={'class': 'browser-default custom-select form-control'}),
         label="Section",
     )

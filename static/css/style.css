@@ -1170,12 +1170,12 @@ a {
   margin: 10px;
 }
 
-.program-description {
+.stratum-description {
   position: relative;
   padding: 1rem 2rem;
 }
 
-.program-description::before {
+.stratum-description::before {
   content: "*";
   position: absolute;
   top: 0;

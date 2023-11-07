@@ -5,7 +5,7 @@
 
 {% block content %}
 <div id="input-nav"><a href="{% url 'home' %}" class="primary1">Home</a> <i>&rsaquo;</i> 
-    <a href="{% url 'programs' %}" class="primary1">Programs</a> <i>&rsaquo;</i> Add</div>
+    <a href="{% url 'stratums' %}" class="primary1">Stratums</a> <i>&rsaquo;</i> Add</div>
 <br>
 
 {% if messages %}
@@ -25,7 +25,7 @@
 <div class="row">
 <div class="col-md-6 mx-auto">
     <div class="card">
-        <p class="form-title">Program Add Form</p>
+        <p class="form-title">Stratum Add Form</p>
         <div class="p-3"><br>
             <form action="" method="POST">{% csrf_token %}
                 <!-- {{ form|crispy }} -->

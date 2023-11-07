@@ -24,7 +24,7 @@
 		{% url 'home' as hom %} {% url 'dashboard' as dash %} {% url 'profile' as prof %}
 		{% url 'lecturer_list' as lec %}
 		{% url 'student_list' as stu %} {% url 'course_allocation_view' as cav %}
-		{% url 'programs' as pro %} {% url 'session_list' as sess %} {% url 'semester_list' as sem %}
+		{% url 'stratums' as pro %} {% url 'session_list' as sess %} {% url 'semester_list' as sem %}
 		{% url 'add_score' as ascore %} {% url 'grade_results' as vr %}{% url 'ass_results' as ar %}
 		{% url 'course_registration' as cr %} {% url 'edit_profile' as ep %} {% url 'change_password' as cp %}
 		{% url 'quiz_progress' as qpr %} {% url 'quiz_marking' as qce %} {% url 'user_course_list' as ucl %}
@@ -61,7 +61,7 @@
 			{% endif %}
 
 			<li class="{% if request.path == pro %}active{% endif %}">
-				<a href="{% url 'programs' %}"><i class="fas fa-book-open"></i>Programs & Courses</a>
+				<a href="{% url 'stratums' %}"><i class="fas fa-book-open"></i>Stratums</a>
 			</li>
 
 			{% if request.user.is_superuser or request.user.is_lecturer %}

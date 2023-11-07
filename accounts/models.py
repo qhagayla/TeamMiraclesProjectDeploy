@@ -6,7 +6,7 @@ from django.conf import settings
 from django.db.models import Q
 from PIL import Image
 
-from course.models import Program
+from course.models import Stratum
 from .validators import ASCIIUsernameValidator
 
 
@@ -128,7 +128,7 @@ class Student(models.Model):
     student = models.OneToOneField(User, on_delete=models.CASCADE)
     # id_number = models.CharField(max_length=20, unique=True, blank=True)
     status = models.CharField(max_length=25, choices=STATUS, null=True)
-    section = models.ForeignKey(Program, on_delete=models.CASCADE, null=True)
+    section = models.ForeignKey(Stratum, on_delete=models.CASCADE, null=True)
 
     objects = StudentManager()
 
@@ -164,7 +164,7 @@ class Parent(models.Model):
 
 class SectionHead(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    section = models.ForeignKey(Program, on_delete=models.CASCADE, null=True)
+    section = models.ForeignKey(Stratum, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return "{}".format(self.user)

@@ -7,8 +7,8 @@
 <div class="container">
 
     <div id="input-nav"><a href="{% url 'home' %}" class="primary1">Home </a>
-        <a href="{% url 'programs' %}" class="primary1">Programs </a>
-        <a href="{% url 'program_detail' course.program.id %}" class="primary1"> {{ course.program }}</a>
+        <a href="{% url 'stratums' %}" class="primary1">Stratums </a>
+        <a href="{% url 'stratum_detail' course.stratum.id %}" class="primary1"> {{ course.stratum }}</a>
         {{ course }}
     </div>
 
@@ -33,7 +33,7 @@
     </div>
 
     <div class="title-1">{{ course }}</div>
-    <p class="program-description">{{ course.summary }}</p>
+    <p class="stratum-description">{{ course.summary }}</p>
 
     {% if request.user.is_superuser %}
     <div class="btn-flex">

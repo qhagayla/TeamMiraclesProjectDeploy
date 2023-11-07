@@ -42,7 +42,7 @@ urlpatterns = [
 
     # path('add-student/', StudentAddView.as_view(), name='add_student'),
 
-    # path('programs/course/delete/<int:pk>/', course_delete, name='delete_course'),
+    # path('stratums/course/delete/<int:pk>/', course_delete, name='delete_course'),
 
     # Setting urls
     # path('profile/<int:pk>/edit/', profileUpdateView, name='edit_profile'),

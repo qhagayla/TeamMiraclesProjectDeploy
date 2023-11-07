@@ -5,8 +5,8 @@
 {% block content %}
 
 <div id="input-nav"><a href="{% url 'home' %}" class="primary1">Home</a>
-    <i>&rsaquo;</i> <a href="{% url 'programs' %}" class="primary1">Programs</a> <i>&rsaquo;</i> 
-    <a href="{% url 'program_detail' video.course.program.id %}" class="primary1"> {{ video.course.program }}</a> <i>&rsaquo;</i> 
+    <i>&rsaquo;</i> <a href="{% url 'stratums' %}" class="primary1">Stratums</a> <i>&rsaquo;</i> 
+    <a href="{% url 'stratum_detail' video.course.stratum.id %}" class="primary1"> {{ video.course.stratum }}</a> <i>&rsaquo;</i> 
     <a href="{% url 'course_detail' video.course.slug %}" class="primary1">{{ video.course }}</a>
      <i>&rsaquo;</i> {{ video.title }}</div>
 

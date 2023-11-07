@@ -4,13 +4,13 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 from accounts.models import User
-from .models import Program, Course, CourseAllocation, Upload, UploadVideo
+from .models import Stratum, Course, CourseAllocation, Upload, UploadVideo
 
 # User = settings.AUTH_USER_MODEL
 
-class ProgramForm(forms.ModelForm):
+class StratumForm(forms.ModelForm):
     class Meta:
-        model = Program
+        model = Stratum
         fields = '__all__'
 
     def __init__(self, *args, **kwargs):
@@ -31,7 +31,7 @@ class CourseAddForm(forms.ModelForm):
         # self.fields['courseUnit'].widget.attrs.update({'class': 'form-control'})
         self.fields['credit'].widget.attrs.update({'class': 'form-control'})
         self.fields['summary'].widget.attrs.update({'class': 'form-control'})
-        self.fields['program'].widget.attrs.update({'class': 'form-control'})
+        self.fields['stratum'].widget.attrs.update({'class': 'form-control'})
         self.fields['status'].widget.attrs.update({'class': 'form-control'})
         self.fields['year'].widget.attrs.update({'class': 'form-control'})
         self.fields['semester'].widget.attrs.update({'class': 'form-control'})

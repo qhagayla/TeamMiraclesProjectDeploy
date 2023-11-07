@@ -13,53 +13,53 @@ from app.models import Session, Semester
 from result.models import TakenCourse
 from accounts.decorators import lecturer_required, student_required
 from .forms import (
-    ProgramForm, CourseAddForm, CourseAllocationForm, 
+    StratumForm, CourseAddForm, CourseAllocationForm, 
     EditCourseAllocationForm, UploadFormFile, UploadFormVideo
 )
-from .models import Program, Course, CourseAllocation, Upload, UploadVideo
+from .models import Stratum, Course, CourseAllocation, Upload, UploadVideo
 
 
 # ########################################################
-# Program views
+# Stratum views
 # ########################################################
 @login_required
-def program_view(request):
-    programs = Program.objects.all()
+def stratum_view(request):
+    stratums = Stratum.objects.all()
 
-    program_filter = request.GET.get('program_filter')
-    if program_filter:
-        programs = Program.objects.filter(title__icontains=program_filter)
+    stratum_filter = request.GET.get('stratum_filter')
+    if stratum_filter:
+        stratums = Stratum.objects.filter(title__icontains=stratum_filter)
 
-    return render(request, 'course/program_list.html', {
-        'title': "Programs | DjangoSMS",
-        'programs': programs,
+    return render(request, 'course/stratum_list.html', {
+        'title': "Stratums | DjangoSMS",
+        'stratums': stratums,
     })
 
 
 @login_required
 @lecturer_required
-def program_add(request):
+def stratum_add(request):
     if request.method == 'POST':
-        form = ProgramForm(request.POST)
+        form = StratumForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, request.POST.get('title') + ' program has been created.')
-            return redirect('programs')
+            messages.success(request, request.POST.get('title') + ' stratum has been created.')
+            return redirect('stratums')
         else:
             messages.error(request, 'Correct the error(S) below.')
     else:
-        form = ProgramForm()
+        form = StratumForm()
 
-    return render(request, 'course/program_add.html', {
-        'title': "Add Program | DjangoSMS",
+    return render(request, 'course/stratum_add.html', {
+        'title': "Add Stratum | DjangoSMS",
         'form': form,
     })
 
 
 @login_required
-def program_detail(request, pk):
-    program = Program.objects.get(pk=pk)
-    courses = Course.objects.filter(program_id=pk).order_by('-year')
+def stratum_detail(request, pk):
+    stratum = Stratum.objects.get(pk=pk)
+    courses = Course.objects.filter(stratum_id=pk).order_by('-year')
     credits = Course.objects.aggregate(Sum('credit'))
 
     paginator = Paginator(courses, 10)
@@ -67,41 +67,41 @@ def program_detail(request, pk):
 
     courses = paginator.get_page(page)
 
-    return render(request, 'course/program_single.html', {
-        'title': program.title,
-        'program': program, 'courses': courses, 'credits': credits
+    return render(request, 'course/stratum_single.html', {
+        'title': stratum.title,
+        'stratum': stratum, 'courses': courses, 'credits': credits
     }, )
 
 
 @login_required
 @lecturer_required
-def program_edit(request, pk):
-    program = Program.objects.get(pk=pk)
+def stratum_edit(request, pk):
+    stratum = Stratum.objects.get(pk=pk)
 
     if request.method == 'POST':
-        form = ProgramForm(request.POST, instance=program)
+        form = StratumForm(request.POST, instance=stratum)
         if form.is_valid():
             form.save()
-            messages.success(request, str(request.POST.get('title')) + ' program has been updated.')
-            return redirect('programs')
+            messages.success(request, str(request.POST.get('title')) + ' stratum has been updated.')
+            return redirect('stratums')
     else:
-        form = ProgramForm(instance=program)
+        form = StratumForm(instance=stratum)
 
-    return render(request, 'course/program_add.html', {
-        'title': "Edit Program | DjangoSMS",
+    return render(request, 'course/stratum_add.html', {
+        'title': "Edit Stratum | DjangoSMS",
         'form': form
     })
 
 
 @login_required
 @lecturer_required
-def program_delete(request, pk):
-    program = Program.objects.get(pk=pk)
-    title = program.title
-    program.delete()
-    messages.success(request, 'Program ' + title + ' has been deleted.')
+def stratum_delete(request, pk):
+    stratum = Stratum.objects.get(pk=pk)
+    title = stratum.title
+    stratum.delete()
+    messages.success(request, 'Stratum ' + title + ' has been deleted.')
 
-    return redirect('programs')
+    return redirect('stratums')
 # ########################################################
 
 # ########################################################
@@ -137,15 +137,15 @@ def course_add(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, (course_name + '(' + course_code + ')' + ' has been created.'))
-            return redirect('program_detail', pk=request.POST.get('program'))
+            return redirect('stratum_detail', pk=request.POST.get('stratum'))
         else:
             messages.error(request, 'Correct the error(s) below.')
     else:
-        form = CourseAddForm(initial={'program': Program.objects.get(pk=pk)})
+        form = CourseAddForm(initial={'stratum': Stratum.objects.get(pk=pk)})
 
     return render(request, 'course/course_add.html', {
         'title': "Add Course | DjangoSMS",
-        'form': form, 'program': pk, 'users': users
+        'form': form, 'stratum': pk, 'users': users
     }, )
 
 
@@ -160,7 +160,7 @@ def course_edit(request, slug):
         if form.is_valid():
             form.save()
             messages.success(request, (course_name + '(' + course_code + ')' + ' has been updated.'))
-            return redirect('program_detail', pk=request.POST.get('program'))
+            return redirect('stratum_detail', pk=request.POST.get('stratum'))
         else:
             messages.error(request, 'Correct the error(s) below.')
     else:
@@ -168,7 +168,7 @@ def course_edit(request, slug):
 
     return render(request, 'course/course_add.html', {
         'title': "Edit Course | DjangoSMS",
-        # 'form': form, 'program': pk, 'course': pk
+        # 'form': form, 'stratum': pk, 'course': pk
         'form': form
     }, )
 
@@ -181,7 +181,7 @@ def course_delete(request, slug):
     course.delete()
     messages.success(request, 'Course ' + course.title + ' has been deleted.')
 
-    return redirect('program_detail', pk=course.program.id)
+    return redirect('stratum_detail', pk=course.stratum.id)
 # ########################################################
 
 
@@ -396,9 +396,9 @@ def course_registration(request):
             t += (i.course.pk,)
         current_semester = Semester.objects.get(is_current_semester=True)
 
-        courses = Course.objects.filter(program__pk=student.section.id, status=student.status, semester=current_semester
+        courses = Course.objects.filter(stratum__pk=student.section.id, status=student.status, semester=current_semester
         ).exclude(id__in=t).order_by('year')
-        all_courses = Course.objects.filter(status=student.status, program__pk=student.section.id)
+        all_courses = Course.objects.filter(status=student.status, stratum__pk=student.section.id)
 
         no_course_is_registered = False  # Check if no course is registered
         all_courses_are_registered = False
@@ -464,7 +464,7 @@ def user_course_list(request):
     elif request.user.is_student:
         student = Student.objects.get(student__pk=request.user.id)
         taken_courses = TakenCourse.objects.filter(student__student__id=student.student.id)
-        courses = Course.objects.filter(status=student.status).filter(program__pk=student.section.id)
+        courses = Course.objects.filter(status=student.status).filter(stratum__pk=student.section.id)
 
         return render(request, 'course/user_course_list.html', {
             'student': student,

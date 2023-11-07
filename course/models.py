@@ -39,7 +39,7 @@ SEMESTER = (
 )
 
 
-class ProgramManager(models.Manager):
+class StratumManager(models.Manager):
     def search(self, query=None):
         qs = self.get_queryset()
         if query is not None:
@@ -50,17 +50,17 @@ class ProgramManager(models.Manager):
         return qs
 
 
-class Program(models.Model):
+class Stratum(models.Model):
     title = models.CharField(max_length=150, unique=True)
     summary = models.TextField(null=True, blank=True)
 
-    objects = ProgramManager()
+    objects = StratumManager()
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('program_detail', kwargs={'pk': self.pk})
+        return reverse('stratum_detail', kwargs={'pk': self.pk})
 
 
 class CourseManager(models.Manager):
@@ -82,7 +82,7 @@ class Course(models.Model):
     code = models.CharField(max_length=200, unique=True, null=True)
     credit = models.IntegerField(null=True, default=0)
     summary = models.TextField(max_length=200, blank=True, null=True)
-    program = models.ForeignKey(Program, on_delete=models.CASCADE)
+    stratum = models.ForeignKey(Stratum, on_delete=models.CASCADE)
     status = models.CharField(max_length=25, choices=STATUS, null=True)
     year = models.IntegerField(choices=YEARS, default=0)
     semester = models.CharField(choices=SEMESTER, max_length=200)

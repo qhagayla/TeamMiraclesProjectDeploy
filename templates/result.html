@@ -11,8 +11,8 @@
 
 <div id="input-nav">
   <a href="{% url 'home' %}" class="primary1">Home</a> 
-  <a href="{% url 'programs' %}" class="primary1">Programs </a> 
-  <a href="{% url 'program_detail' course.program.id %}" class="primary1">{{ course.program }} </a> 
+  <a href="{% url 'stratums' %}" class="primary1">Stratums </a> 
+  <a href="{% url 'stratum_detail' course.stratum.id %}" class="primary1">{{ course.stratum }} </a> 
   <a href="{{ course.get_absolute_url }}" class="primary1">{{ course }} </a> 
   <a href="{% url 'quiz_index' course.slug %}" class="primary1">Quizzes</a> 
   <a href="{% url 'quiz_take' course.id quiz.slug %}" class="primary1">{{ quiz.title|title }}</a> Result

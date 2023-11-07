@@ -2,13 +2,13 @@
 {% block title %}{{ title }}{% endblock title %}
 
 {% block content %}
-<div id="input-nav"><a href="{% url 'home' %}" class="primary1">Home</a> <i>&rsaquo;</i> Programs</div>
+<div id="input-nav"><a href="{% url 'home' %}" class="primary1">Home</a> <i>&rsaquo;</i> Stratums</div>
 
 {% if request.user.is_superuser %}
-<a class="add-button" href="{% url 'add_program' %}"><i class="fas fa-plus"></i>Add Program</a>
+<a class="add-button" href="{% url 'add_stratum' %}"><i class="fas fa-plus"></i>Add Stratum</a>
 {% endif %}
 
-<div class="title-1"><i class="fas fa-book-open"></i>Program List</div>
+<div class="title-1"><i class="fas fa-book-open"></i>Stratum List</div>
 <div class="title-line"></div>
 
 {% if messages %}
@@ -27,8 +27,8 @@
 
 <div class="content-center">
     <form class="search-form mx-auto" action="" method="GET">{% csrf_token %}
-        <input class="au-input" type="text" name="program_filter" placeholder="Program name"
-            value="{{ request.GET.program_filter }}" />
+        <input class="au-input" type="text" name="stratum_filter" placeholder="Stratum name"
+            value="{{ request.GET.stratum_filter }}" />
         <button class="btn btn-light" type="submit">
             <i class="fas fa-search"></i> Filter
         </button>
@@ -40,7 +40,7 @@
 </button> -->
 
 <!-- Modal -->
-{% for program in programs %}
+{% for stratum in stratums %}
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -49,7 +49,7 @@
             </p>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <a class="btn btn-danger" href="{% url 'program_delete' pk=program.pk %}">Delete</a>
+                <a class="btn btn-danger" href="{% url 'stratum_delete' pk=stratum.pk %}">Delete</a>
             </div>
         </div>
     </div>
@@ -63,7 +63,7 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Program Name</th>
+                    <th>Stratum Name</th>
                     <th>Summary</th>
                     {% if request.user.is_superuser %}
                     <th>Action</th>
@@ -71,17 +71,17 @@
                 </tr>
             </thead>
             <tbody>
-                {% for program in programs %}
+                {% for stratum in stratums %}
                 <tr>
                     <td>{{ forloop.counter }}.</td>
-                    <td><a class="a-list" href="{{ program.get_absolute_url }}">
-                            {{ program.title}}</a></td>
-                    <td>{{ program.summary }} </td>
+                    <td><a class="a-list" href="{{ stratum.get_absolute_url }}">
+                            {{ stratum.title}}</a></td>
+                    <td>{{ stratum.summary }} </td>
                     {% if request.user.is_superuser %}
 
                     <td>
                         <div class="update-delete">
-                            <a href="{% url 'edit_program' pk=program.pk %}" class="update"><i
+                            <a href="{% url 'edit_stratum' pk=stratum.pk %}" class="update"><i
                                     class="fas fa-edit"></i></a>
                             <button type="button" class="btn btn-sm" data-toggle="modal" data-target="#exampleModal">
                                 <i class="fas fa-trash-alt"></i>
@@ -94,20 +94,20 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <p class="p-4">
-                                        Are you sure you want to delete this program?
+                                        Are you sure you want to delete this stratum?
                                     </p>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
                                             data-dismiss="modal">Close</button>
                                         <a class="btn btn-danger"
-                                            href="{% url 'program_delete' pk=program.pk %}">Delete</a>
+                                            href="{% url 'stratum_delete' pk=stratum.pk %}">Delete</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!-- <td> <div class="update-delete">
-                    <a href="{% url 'edit_program' pk=program.pk %}" class="update"><i class="fas fa-edit"></i></a> 
-                    <a href="{% url 'program_delete' pk=program.pk %}" class="delete"><i class="fas fa-trash-alt"></i></a>
+                    <a href="{% url 'edit_stratum' pk=stratum.pk %}" class="update"><i class="fas fa-edit"></i></a> 
+                    <a href="{% url 'stratum_delete' pk=stratum.pk %}" class="delete"><i class="fas fa-trash-alt"></i></a>
                     </div> -->
                     </td>
                     {% endif %}

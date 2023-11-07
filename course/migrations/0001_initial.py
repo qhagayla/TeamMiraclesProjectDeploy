@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Program',
+            name='Stratum',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=150, unique=True)),
@@ -61,7 +61,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='course',
-            name='program',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='course.Program'),
+            name='stratum',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='course.Stratum'),
         ),
     ]

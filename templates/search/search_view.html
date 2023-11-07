@@ -41,12 +41,12 @@
     <hr>
     {% for object in object_list %}
         {% with object|class_name as klass %}
-        {% if klass == 'Program' %}
+        {% if klass == 'Stratum' %}
             <div class="session-wrapper">
-                <div class="session"><div class="info-text bg-orange">Program</div></div>
+                <div class="session"><div class="info-text bg-orange">Stratum</div></div>
             </div>
             <div class='col-12 class-item'>
-                <!-- <p><b>Program of</b> {{ object }}</p> -->
+                <!-- <p><b>Stratum of</b> {{ object }}</p> -->
                 <h4><a href='{{ object.get_absolute_url }}'><b>{{ object.title}}</b></a></h4>
                 <p>{{ object.summary }}</p>
             </div><hr>
@@ -56,7 +56,7 @@
                 <div class="session"><div class="info-text bg-orange">Course</div></div>
             </div>
             <div class='col-12 class-item'>
-                <p><b>Program of</b> {{ object.program }}</p>
+                <p><b>Stratum of</b> {{ object.stratum }}</p>
                 <h4><a href='{{ object.get_absolute_url }}'><b>{{ object }}</b></a></h4>
                 <p>{{ object.summary }}</p>
             </div><hr>
@@ -83,7 +83,7 @@
 
         {% else %}
             <div class="session-wrapper">
-                <div class="session"><div class="info-text bg-orange">Program</div></div>
+                <div class="session"><div class="info-text bg-orange">Stratum</div></div>
             </div>
             <div class='col-12 col-lg-8 offset-lg-4'>
                 <a href='{{ object.get_absolute_url }}' class="class-item d-flex">{{ object }} | {{ object|class_name }}</a>
@@ -116,7 +116,7 @@
     <div class="col-12 pl-5">
     <h5>Search by using:</h5>
     <ul class="pl-3">
-        <li>Program <span class="text-orange">></span> Title or Description</li>
+        <li>Stratum <span class="text-orange">></span> Title or Description</li>
         <li>Course <span class="text-orange">></span> Title, Code or Description</li>
         <li>News And Events <span class="text-orange">></span> Title, Description or just by typing "news" or "event"</li>
         <li>Quiz <span class="text-orange">></span> Title, Description or Category(practice, assignment and exam)</li>

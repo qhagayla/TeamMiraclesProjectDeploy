@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='student',
             name='section',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='course.Program'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='course.Stratum'),
         ),
         migrations.AddField(
             model_name='student',

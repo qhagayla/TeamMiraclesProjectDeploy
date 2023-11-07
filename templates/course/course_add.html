@@ -5,7 +5,7 @@
 
 {% block content %}
 <div id="input-nav"><a href="{% url 'home' %}" class="primary1">Home</a> <i>&rsaquo;</i> 
-    <a href="{% url 'programs' %}" class="primary1">Programs</a> <i>&rsaquo;</i> Add & Update Course</div>
+    <a href="{% url 'stratums' %}" class="primary1">Stratums</a> <i>&rsaquo;</i> Add & Update Course</div>
 
 <div class="title-1">Course Add & Update Form</div>
 <div class="title-line"></div>
@@ -55,8 +55,8 @@
                 <div class="p-3">
                     
                     <div class="form-group">
-                        <b>{{ form.program.label }}</b>{{ form.program }}
-                        <span class="danger">{{ form.program.errors }}</span>
+                        <b>{{ form.stratum.label }}</b>{{ form.stratum }}
+                        <span class="danger">{{ form.stratum.errors }}</span>
                     </div>
                     <div class="form-group">
                         <b>{{ form.credit.label }}</b>{{ form.credit }}

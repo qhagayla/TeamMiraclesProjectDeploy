@@ -43,7 +43,7 @@ from django.db.models import Q
 
 from accounts.models import User, Student
 from app.models import NewsAndEvents
-from course.models import Program, Course
+from course.models import Stratum, Course
 from quiz.models import Quiz
 
 
@@ -64,14 +64,14 @@ class SearchView(ListView):
         
         if query is not None:
             news_events_results  = NewsAndEvents.objects.search(query)
-            program_results      = Program.objects.search(query)
+            stratum_results      = Stratum.objects.search(query)
             course_results       = Course.objects.search(query)
             quiz_results         = Quiz.objects.search(query)
             
             # combine querysets 
             queryset_chain = chain(
                     news_events_results,
-                    program_results,
+                    stratum_results,
                     course_results,
                     quiz_results
             )        
