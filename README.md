@@ -14,7 +14,7 @@ Current features
 git clone https://github.com/qhagayla/TeamMiraclesProject.git
 ```
 ```
-cd django-lms
+cd TeamMiraclesProject
 ```
 ```
 python -m venv venv
