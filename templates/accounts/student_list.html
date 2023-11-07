@@ -30,7 +30,7 @@
     <form class="search-form" action="" method="GET">
         <input class="au-input" type="text" id="student_id" name="student_id" placeholder="ID No." value="{{ request.GET.student_id }}"/>
         <input class="au-input" type="text" name="name" placeholder="Name" value="{{ request.GET.name }}"/>
-        <input class="au-input" type="text" name="department" placeholder="Department" value="{{ request.GET.department }}"/>
+        <input class="au-input" type="text" name="section" placeholder="Section" value="{{ request.GET.section }}"/>
         <button class="btn btn-light" type="submit">
             <i class="fas fa-search"></i> filter
         </button>
@@ -55,7 +55,7 @@
                 <th> ID No. </th>
                 <th> Full Name </th>
                 <th> Email </th>
-                <th> Department </th>
+                <th> Section </th>
                 {% if request.user.is_superuser %}
                 <th> Action </th>
                 {% endif %}
@@ -68,7 +68,7 @@
                 <td>{{ student.student.username }} </td>
                 <td><a href="{% url 'profile_single' student.student.id %}">{{ student.student.get_full_name }}</a></td>
                 <td>{{ student.student.email }} </td>
-                <td>{{ student.department }}</td>
+                <td>{{ student.section }}</td>
 
                 {% if request.user.is_superuser %}
                 <td>

@@ -7,10 +7,10 @@
 <div id="input-nav"><a href="{% url 'home' %}" class="primary1">Home</a> <i>&rsaquo;</i> My Courses</div>
 
 {% if request.user.is_student %}
-    <div class="title-1">{{ student.department.title }}</div>
+    <div class="title-1">{{ student.section.title }}</div>
     <div class="title-line"></div>
-    {% if student.department.summary %}
-        <p class="program-description">{{ student.department.summary }}</p>
+    {% if student.section.summary %}
+        <p class="program-description">{{ student.section.summary }}</p>
     {% endif %}
 {% endif %}
 

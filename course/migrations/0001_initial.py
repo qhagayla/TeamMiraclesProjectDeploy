@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
                 ('code', models.CharField(max_length=200, null=True, unique=True)),
                 ('credit', models.IntegerField(default=0, null=True)),
                 ('summary', models.TextField(blank=True, max_length=200, null=True)),
-                ('level', models.CharField(choices=[('Level course', 'Level course'), ('Bachloar', 'Bachloar'), ('Master', 'Master')], max_length=25, null=True)),
+                ('status', models.CharField(choices=[('Status course', 'Status course'), ('Regular', 'Regular'), ('Irregular', 'Irregular')], max_length=25, null=True)),
                 ('year', models.IntegerField(choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (4, '5'), (4, '6')], default=0)),
                 ('semester', models.CharField(choices=[('First', 'First'), ('Second', 'Second'), ('Third', 'Third')], max_length=200)),
                 ('is_elective', models.BooleanField(blank=True, default=False, null=True)),

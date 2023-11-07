@@ -10,14 +10,14 @@ from course.models import Program
 from .validators import ASCIIUsernameValidator
 
 
-# LEVEL_COURSE = "Level course"
-BACHLOAR_DEGREE = "Bachloar"
-MASTER_DEGREE = "Master"
+# STATUS_COURSE = "Status course"
+REGULAR_STUDENT = "Regular"
+IRREGULAR_STUDENT = "Irregular"
 
-LEVEL = (
-    # (LEVEL_COURSE, "Level course"),
-    (BACHLOAR_DEGREE, "Bachloar Degree"),
-    (MASTER_DEGREE, "Master Degree"),
+STATUS = (
+    # (STATUS_COURSE, "Status course"),
+    (REGULAR_STUDENT, "Regular Student"),
+    (IRREGULAR_STUDENT, "Irregular Student"),
 )
 
 FATHER = "Father"
@@ -117,8 +117,8 @@ class StudentManager(models.Manager):
     def search(self, query=None):
         qs = self.get_queryset()
         if query is not None:
-            or_lookup = (Q(level__icontains=query) | 
-                         Q(department__icontains=query)
+            or_lookup = (Q(status__icontains=query) | 
+                         Q(section__icontains=query)
                         )
             qs = qs.filter(or_lookup).distinct() # distinct() is often necessary with Q lookups
         return qs
@@ -127,8 +127,8 @@ class StudentManager(models.Manager):
 class Student(models.Model):
     student = models.OneToOneField(User, on_delete=models.CASCADE)
     # id_number = models.CharField(max_length=20, unique=True, blank=True)
-    level = models.CharField(max_length=25, choices=LEVEL, null=True)
-    department = models.ForeignKey(Program, on_delete=models.CASCADE, null=True)
+    status = models.CharField(max_length=25, choices=STATUS, null=True)
+    section = models.ForeignKey(Program, on_delete=models.CASCADE, null=True)
 
     objects = StudentManager()
 
@@ -162,9 +162,9 @@ class Parent(models.Model):
         return self.user.username
 
 
-class DepartmentHead(models.Model):
+class SectionHead(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    department = models.ForeignKey(Program, on_delete=models.CASCADE, null=True)
+    section = models.ForeignKey(Program, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return "{}".format(self.user)

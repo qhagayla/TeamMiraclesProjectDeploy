@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm, Password
 from django.contrib.auth.forms import PasswordResetForm
 
 from course.models import Program
-# from .models import User, Student, LEVEL
+# from .models import User, Student, STATUS
 from .models import *
 
 
@@ -115,19 +115,19 @@ class StudentAddForm(UserCreationForm):
         label="Last name",
     )
 
-    level = forms.CharField(
+    status = forms.CharField(
         widget=forms.Select(
-            choices=LEVEL,
+            choices=STATUS,
             attrs={
                 'class': 'browser-default custom-select form-control',
             }
         ),
     )
 
-    department = forms.ModelChoiceField(
+    section = forms.ModelChoiceField(
         queryset=Program.objects.all(),
         widget=forms.Select(attrs={'class': 'browser-default custom-select form-control'}),
-        label="Department",
+        label="Section",
     )
 
     email = forms.EmailField(
@@ -168,8 +168,8 @@ class StudentAddForm(UserCreationForm):
         user.save()
         student = Student.objects.create(
             student=user,
-            level=self.cleaned_data.get('level'),
-            department=self.cleaned_data.get('department')
+            status=self.cleaned_data.get('status'),
+            section=self.cleaned_data.get('section')
         )
         student.save()
         return user

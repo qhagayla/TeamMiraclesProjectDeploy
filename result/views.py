@@ -91,9 +91,9 @@ def add_score_for(request, id):
             student = TakenCourse.objects.get(id=ids[s])
             # print(student)
             # print(student.student)
-            # print(student.student.department.id)
-            courses = Course.objects.filter(level=student.student.level).filter(program__pk=student.student.department.id).filter(
-                semester=current_semester)  # all courses of a specific level in current semester
+            # print(student.student.section.id)
+            courses = Course.objects.filter(status=student.student.status).filter(program__pk=student.student.section.id).filter(
+                semester=current_semester)  # all courses of a specific status in current semester
             total_credit_in_semester = 0
             for i in courses:
                 if i == courses.count():
@@ -129,21 +129,21 @@ def add_score_for(request, id):
             cgpa = obj.calculate_cgpa()
 
             try:
-                a = Result.objects.get(student=student.student, semester=current_semester, session=current_session, level=student.student.level)
+                a = Result.objects.get(student=student.student, semester=current_semester, session=current_session, status=student.student.status)
                 a.gpa = gpa
                 a.cgpa = cgpa
                 a.save()
             except:
                 Result.objects.get_or_create(student=student.student, gpa=gpa, semester=current_semester,
-                                             session=current_session, level=student.student.level)
+                                             session=current_session, status=student.student.status)
 
             # try:
-            #     a = Result.objects.get(student=student.student, semester=current_semester, level=student.student.level)
+            #     a = Result.objects.get(student=student.student, semester=current_semester, status=student.student.status)
             #     a.gpa = gpa
             #     a.cgpa = cgpa
             #     a.save()
             # except:
-            #     Result.objects.get_or_create(student=student.student, gpa=gpa, semester=current_semester, level=student.student.level)
+            #     Result.objects.get_or_create(student=student.student, gpa=gpa, semester=current_semester, status=student.student.status)
 
         messages.success(request, 'Successfully Recorded! ')
         return HttpResponseRedirect(reverse_lazy('add_score_for', kwargs={'id': id}))
@@ -155,7 +155,7 @@ def add_score_for(request, id):
 @student_required
 def grade_result(request):
     student = Student.objects.get(student__pk=request.user.id)
-    courses = TakenCourse.objects.filter(student__student__pk=request.user.id).filter(course__level=student.level)
+    courses = TakenCourse.objects.filter(student__student__pk=request.user.id).filter(course__status=student.status)
     # total_credit_in_semester = 0
     results = Result.objects.filter(student__student__pk=request.user.id)
 
@@ -175,12 +175,12 @@ def grade_result(request):
             total_sec_semester_credit += int(i.course.credit)
 
     previousCGPA = 0
-    # previousLEVEL = 0
+    # previousSTATUS = 0
     # calculate_cgpa
     for i in results:
-        previousLEVEL = i.level
+        previousSTATUS = i.status
         try:
-            a = Result.objects.get(student__student__pk=request.user.id, level=previousLEVEL, semester="Second")
+            a = Result.objects.get(student__student__pk=request.user.id, status=previousSTATUS, semester="Second")
             previousCGPA = a.cgpa
             break
         except:
@@ -204,7 +204,7 @@ def grade_result(request):
 @student_required
 def assessment_result(request):
     student = Student.objects.get(student__pk=request.user.id)
-    courses = TakenCourse.objects.filter(student__student__pk=request.user.id, course__level=student.level)
+    courses = TakenCourse.objects.filter(student__student__pk=request.user.id, course__status=student.status)
     result = Result.objects.filter(student__student__pk=request.user.id)
 
     context = {
@@ -282,8 +282,8 @@ def result_sheet_pdf_view(request, id):
     normal.fontName = "Helvetica"
     normal.fontSize = 10
     normal.leading = 15
-    level = result.filter(course_id=id).first()
-    title = "<b>Level: </b>" + str(level.course.level)
+    status = result.filter(course_id=id).first()
+    title = "<b>Status: </b>" + str(status.course.status)
     title = Paragraph(title.upper(), normal)
     Story.append(title)
     Story.append(Spacer(1,.6*inch))
@@ -379,14 +379,14 @@ def course_registration_form(request):
 
     style = getSampleStyleSheet()
     Story.append(Spacer(1,0.1*inch))
-    department = style["Normal"]
-    department.alignment = TA_CENTER
-    department.fontName = "Helvetica"
-    department.fontSize = 9
-    department.leading = 18
-    department_title = "<b>DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING</b>"
-    department_title = Paragraph(department_title, department)
-    Story.append(department_title)
+    section = style["Normal"]
+    section.alignment = TA_CENTER
+    section.fontName = "Helvetica"
+    section.fontSize = 9
+    section.leading = 18
+    section_title = "<b>SECTION OF COMPUTER ENGINEERING</b>"
+    section_title = Paragraph(section_title, section)
+    Story.append(section_title)
     Story.append(Spacer(1,.3*inch))
     
     title = "<b><u>STUDENT COURSE REGISTRATION FORM</u></b>"
@@ -398,7 +398,7 @@ def course_registration_form(request):
     tbl_data = [
         [Paragraph("<b>Registration Number : " + request.user.username.upper() + "</b>", styles["Normal"])],
         [Paragraph("<b>Name : " + request.user.get_full_name.upper() + "</b>", styles["Normal"])],
-        [Paragraph("<b>Session : " + current_session.session.upper() + "</b>", styles["Normal"]), Paragraph("<b>Level: " + student.level + "</b>", styles["Normal"])
+        [Paragraph("<b>Session : " + current_session.session.upper() + "</b>", styles["Normal"]), Paragraph("<b>Status: " + student.status + "</b>", styles["Normal"])
         ]]
     tbl = Table(tbl_data)
     Story.append(tbl)
@@ -541,7 +541,7 @@ def course_registration_form(request):
     certification.leading = 18
     student = Student.objects.get(student__pk=request.user.id)
     certification_text = "CERTIFICATION OF REGISTRATION: I certify that <b>" + str(request.user.get_full_name.upper()) + "</b>\
-    has been duly registered for the <b>" + student.level + " level </b> of study in the department\
+    has been duly registered for the <b>" + student.status + " status </b> of study in the section\
     of COMPUTER SICENCE & ENGINEERING and that the courses and credits registered are as approved by the senate of the University"
     certification_text = Paragraph(certification_text, certification)
     Story.append(certification_text)

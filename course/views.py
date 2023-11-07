@@ -396,14 +396,14 @@ def course_registration(request):
             t += (i.course.pk,)
         current_semester = Semester.objects.get(is_current_semester=True)
 
-        courses = Course.objects.filter(program__pk=student.department.id, level=student.level, semester=current_semester
+        courses = Course.objects.filter(program__pk=student.section.id, status=student.status, semester=current_semester
         ).exclude(id__in=t).order_by('year')
-        all_courses = Course.objects.filter(level=student.level, program__pk=student.department.id)
+        all_courses = Course.objects.filter(status=student.status, program__pk=student.section.id)
 
         no_course_is_registered = False  # Check if no course is registered
         all_courses_are_registered = False
 
-        registered_courses = Course.objects.filter(level=student.level).filter(id__in=t)
+        registered_courses = Course.objects.filter(status=student.status).filter(id__in=t)
         if registered_courses.count() == 0:  # Check if number of registered courses is 0
             no_course_is_registered = True
 
@@ -464,7 +464,7 @@ def user_course_list(request):
     elif request.user.is_student:
         student = Student.objects.get(student__pk=request.user.id)
         taken_courses = TakenCourse.objects.filter(student__student__id=student.student.id)
-        courses = Course.objects.filter(level=student.level).filter(program__pk=student.department.id)
+        courses = Course.objects.filter(status=student.status).filter(program__pk=student.section.id)
 
         return render(request, 'course/user_course_list.html', {
             'student': student,

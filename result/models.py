@@ -14,14 +14,14 @@ YEARS = (
         (4, '6'),
     )
 
-# LEVEL_COURSE = "Level course"
-BACHLOAR_DEGREE = "Bachloar"
-MASTER_DEGREE = "Master"
+# STATUS_COURSE = "Status course"
+REGULAR_STUDENT = "Regular"
+IRREGULAR_STUDENT = "Irregular"
 
-LEVEL = (
-    # (LEVEL_COURSE, "Level course"),
-    (BACHLOAR_DEGREE, "Bachloar Degree"),
-    (MASTER_DEGREE, "Master Degree"),
+STATUS = (
+    # (STATUS_COURSE, "Status course"),
+    (REGULAR_STUDENT, "Regular Student"),
+    (IRREGULAR_STUDENT, "Irregular Student"),
 )
 
 FIRST = "First"
@@ -191,7 +191,7 @@ class TakenCourse(models.Model):
 
     def calculate_gpa(self, total_credit_in_semester):
         current_semester = Semester.objects.get(is_current_semester=True)
-        student = TakenCourse.objects.filter(student=self.student, course__level=self.student.level, course__semester=current_semester)
+        student = TakenCourse.objects.filter(student=self.student, course__status=self.student.status, course__semester=current_semester)
         p = 0
         point = 0
         for i in student:
@@ -227,7 +227,7 @@ class TakenCourse(models.Model):
     
     def calculate_cgpa(self):
         current_semester = Semester.objects.get(is_current_semester=True)
-        previousResult = Result.objects.filter(student__id=self.student.id, level__lt=self.student.level)
+        previousResult = Result.objects.filter(student__id=self.student.id, status__lt=self.student.status)
         previousCGPA = 0
         for i in previousResult:
             if i.cgpa is not None:
@@ -237,18 +237,18 @@ class TakenCourse(models.Model):
             first_sem_gpa = 0.0
             sec_sem_gpa = 0.0
             try:
-                first_sem_result = Result.objects.get(student=self.student.id, semester=FIRST, level=self.student.level)
+                first_sem_result = Result.objects.get(student=self.student.id, semester=FIRST, status=self.student.status)
                 first_sem_gpa += first_sem_result.gpa
             except:
                 first_sem_gpa = 0
 
             try:
-                sec_sem_result = Result.objects.get(student=self.student.id, semester=SECOND, level=self.student.level)
+                sec_sem_result = Result.objects.get(student=self.student.id, semester=SECOND, status=self.student.status)
                 sec_sem_gpa += sec_sem_result.gpa
             except:
                 sec_sem_gpa = 0
 
-            taken_courses = TakenCourse.objects.filter(student=self.student, student__level=self.student.level)
+            taken_courses = TakenCourse.objects.filter(student=self.student, student__status=self.student.status)
             TCC = 0
             TCP = 0
             for i in taken_courses:
@@ -278,4 +278,4 @@ class Result(models.Model):
     cgpa = models.FloatField(null=True)
     semester = models.CharField(max_length=100, choices=SEMESTER)
     session = models.CharField(max_length=100, blank=True, null=True)
-    level = models.CharField(max_length=25, choices=LEVEL, null=True)
+    status = models.CharField(max_length=25, choices=STATUS, null=True)

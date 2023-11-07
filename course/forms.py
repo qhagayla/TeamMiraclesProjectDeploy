@@ -32,14 +32,14 @@ class CourseAddForm(forms.ModelForm):
         self.fields['credit'].widget.attrs.update({'class': 'form-control'})
         self.fields['summary'].widget.attrs.update({'class': 'form-control'})
         self.fields['program'].widget.attrs.update({'class': 'form-control'})
-        self.fields['level'].widget.attrs.update({'class': 'form-control'})
+        self.fields['status'].widget.attrs.update({'class': 'form-control'})
         self.fields['year'].widget.attrs.update({'class': 'form-control'})
         self.fields['semester'].widget.attrs.update({'class': 'form-control'})
 
 
 class CourseAllocationForm(forms.ModelForm):
     courses = forms.ModelMultipleChoiceField(
-        queryset=Course.objects.all().order_by('level'),
+        queryset=Course.objects.all().order_by('status'),
         widget=forms.CheckboxSelectMultiple(attrs={'class': 'browser-default checkbox'}),
         required=True
     )
@@ -61,7 +61,7 @@ class CourseAllocationForm(forms.ModelForm):
 
 class EditCourseAllocationForm(forms.ModelForm):
     courses = forms.ModelMultipleChoiceField(
-        queryset=Course.objects.all().order_by('level'),
+        queryset=Course.objects.all().order_by('status'),
         widget=forms.CheckboxSelectMultiple,
         required=True
     )

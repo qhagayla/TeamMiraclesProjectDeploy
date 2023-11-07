@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
                     "dep_head",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        to="accounts.departmenthead",
+                        to="accounts.sectionhead",
                     ),
                 ),
             ],

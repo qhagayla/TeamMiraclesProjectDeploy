@@ -66,19 +66,19 @@ def profile(request):
             },
         )
     elif request.user.is_student:
-        level = Student.objects.get(student__pk=request.user.id)
+        status = Student.objects.get(student__pk=request.user.id)
         try:
-            parent = Parent.objects.get(student=level)
+            parent = Parent.objects.get(student=status)
         except:
             parent = "no parent set"
         courses = TakenCourse.objects.filter(
-            student__student__id=request.user.id, course__level=level.level
+            student__student__id=request.user.id, course__status=status.status
         )
         context = {
             "title": request.user.get_full_name,
             "parent": parent,
             "courses": courses,
-            "level": level,
+            "status": status,
             "current_session": current_session,
             "current_semester": current_semester,
         }
@@ -126,7 +126,7 @@ def profile_single(request, id):
     elif user.is_student:
         student = Student.objects.get(student__pk=id)
         courses = TakenCourse.objects.filter(
-            student__student__id=id, course__level=student.level
+            student__student__id=id, course__status=student.status
         )
         context = {
             "title": user.get_full_name,
@@ -361,7 +361,7 @@ class StudentListView(ListView):
         queryset = Student.objects.all()
         query = self.request.GET.get("student_id")
         if query is not None:
-            queryset = queryset.filter(Q(department=query))
+            queryset = queryset.filter(Q(section=query))
         return queryset
 
     def get_context_data(self, **kwargs):

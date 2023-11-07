@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
                 ('gpa', models.FloatField(null=True)),
                 ('cgpa', models.FloatField(null=True)),
                 ('semester', models.CharField(choices=[('First', 'First'), ('Second', 'Second'), ('Third', 'Third')], max_length=100)),
-                ('level', models.CharField(choices=[('Level course', 'Level course'), ('Bachloar', 'Bachloar'), ('Master', 'Master')], max_length=25, null=True)),
+                ('status', models.CharField(choices=[('Status course', 'Status course'), ('Regular', 'Regular'), ('Irregular', 'Irregular')], max_length=25, null=True)),
                 ('session', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='app.Session')),
                 ('student', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='accounts.Student')),
             ],

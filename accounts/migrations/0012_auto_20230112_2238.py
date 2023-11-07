@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RenameModel(
             old_name='DepHead',
-            new_name='DepartmentHead',
+            new_name='SectionHead',
         ),
         migrations.AddField(
             model_name='parent',

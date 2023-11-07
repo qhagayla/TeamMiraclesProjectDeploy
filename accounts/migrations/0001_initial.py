@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
             name='Student',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('level', models.CharField(choices=[('Level course', 'Level course'), ('Bachloar', 'Bachloar'), ('Master', 'Master')], max_length=25, null=True)),
+                ('status', models.CharField(choices=[('Status course', 'Status course'), ('Regular', 'Regular'), ('Irregular', 'Irregular')], max_length=25, null=True)),
             ],
         ),
     ]

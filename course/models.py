@@ -18,14 +18,14 @@ YEARS = (
         (4, '6'),
     )
 
-# LEVEL_COURSE = "Level course"
-BACHLOAR_DEGREE = "Bachloar"
-MASTER_DEGREE = "Master"
+# STATUS_COURSE = "Status course"
+REGULAR_STUDENT = "Regular"
+IRREGULAR_STUDENT = "Student"
 
-LEVEL = (
-    # (LEVEL_COURSE, "Level course"),
-    (BACHLOAR_DEGREE, "Bachloar Degree"),
-    (MASTER_DEGREE, "Master Degree"),
+STATUS = (
+    # (STATUS_COURSE, "Status course"),
+    (REGULAR_STUDENT, "Regular Student"),
+    (IRREGULAR_STUDENT, "Irregular Student"),
 )
 
 FIRST = "First"
@@ -83,7 +83,7 @@ class Course(models.Model):
     credit = models.IntegerField(null=True, default=0)
     summary = models.TextField(max_length=200, blank=True, null=True)
     program = models.ForeignKey(Program, on_delete=models.CASCADE)
-    level = models.CharField(max_length=25, choices=LEVEL, null=True)
+    status = models.CharField(max_length=25, choices=STATUS, null=True)
     year = models.IntegerField(choices=YEARS, default=0)
     semester = models.CharField(choices=SEMESTER, max_length=200)
     is_elective = models.BooleanField(default=False, blank=True, null=True)
@@ -183,8 +183,8 @@ pre_save.connect(video_pre_save_receiver, sender=UploadVideo)
 
 
 class CourseOffer(models.Model):
-	"""NOTE: Only department head can offer semester courses"""
-	dep_head = models.ForeignKey("accounts.DepartmentHead", on_delete=models.CASCADE)
+	"""NOTE: Only section head can offer semester courses"""
+	dep_head = models.ForeignKey("accounts.SectionHead", on_delete=models.CASCADE)
 
 	def __str__(self):
 		return "{}".format(self.dep_head)
