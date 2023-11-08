@@ -9,7 +9,7 @@ from django.core.paginator import Paginator
 from accounts.models import User, Student
 from app.models import Session, Semester
 from course.models import Course
-from accounts.decorators import lecturer_required, student_required
+from accounts.decorators import instructor_required, student_required
 from .models import TakenCourse, Result
 
 #pdf
@@ -30,17 +30,17 @@ cm = 2.54
 # Score Add & Add for
 # ########################################################
 @login_required
-@lecturer_required
+@instructor_required
 def add_score(request):
     """ 
-    Shows a page where a lecturer will select a course allocated to him for score entry.
+    Shows a page where a instructor will select a course allocated to him for score entry.
     in a specific semester and session 
 
     """
     current_session = Session.objects.get(is_current_session=True)
     current_semester = get_object_or_404(Semester, is_current_semester=True, session=current_session)
-    # semester = Course.objects.filter(allocated_course__lecturer__pk=request.user.id, semester=current_semester)
-    courses = Course.objects.filter(allocated_course__lecturer__pk=request.user.id).filter(semester=current_semester)
+    # semester = Course.objects.filter(allocated_course__instructor__pk=request.user.id, semester=current_semester)
+    courses = Course.objects.filter(allocated_course__instructor__pk=request.user.id).filter(semester=current_semester)
     context = {
         "current_session": current_session,
         "current_semester": current_semester,
@@ -50,25 +50,25 @@ def add_score(request):
 
 
 @login_required
-@lecturer_required
+@instructor_required
 def add_score_for(request, id):
     """
-    Shows a page where a lecturer will add score for students that are taking courses allocated to him
+    Shows a page where a instructor will add score for students that are taking courses allocated to him
     in a specific semester and session 
     """
     current_session = Session.objects.get(is_current_session=True)
     current_semester = get_object_or_404(Semester, is_current_semester=True, session=current_session)
     if request.method == 'GET':
-        courses = Course.objects.filter(allocated_course__lecturer__pk=request.user.id).filter(
+        courses = Course.objects.filter(allocated_course__instructor__pk=request.user.id).filter(
             semester=current_semester)
         course = Course.objects.get(pk=id)
-        # myclass = Class.objects.get(lecturer__pk=request.user.id)
-        # myclass = get_object_or_404(Class, lecturer__pk=request.user.id)
+        # myclass = Class.objects.get(instructor__pk=request.user.id)
+        # myclass = get_object_or_404(Class, instructor__pk=request.user.id)
 
-        # students = TakenCourse.objects.filter(course__allocated_course__lecturer__pk=request.user.id).filter(
-        #     course__id=id).filter(student__allocated_student__lecturer__pk=request.user.id).filter(
+        # students = TakenCourse.objects.filter(course__allocated_course__instructor__pk=request.user.id).filter(
+        #     course__id=id).filter(student__allocated_student__instructor__pk=request.user.id).filter(
         #         course__semester=current_semester)
-        students = TakenCourse.objects.filter(course__allocated_course__lecturer__pk=request.user.id).filter(
+        students = TakenCourse.objects.filter(course__allocated_course__instructor__pk=request.user.id).filter(
             course__id=id).filter(course__semester=current_semester)
         context = {
             "title": "Submit Score | DjangoSMS",
@@ -217,7 +217,7 @@ def assessment_result(request):
 
 
 @login_required
-@lecturer_required
+@instructor_required
 def result_sheet_pdf_view(request, id):
     current_semester = Semester.objects.get(is_current_semester=True)
     current_session = Session.objects.get(is_current_session=True)
@@ -272,7 +272,7 @@ def result_sheet_pdf_view(request, id):
     normal.fontName = "Helvetica"
     normal.fontSize = 10
     normal.leading = 15
-    title = "<b>Course lecturer: " + request.user.get_full_name + "</b>"
+    title = "<b>Course instructor: " + request.user.get_full_name + "</b>"
     title = Paragraph(title.upper(), normal)
     Story.append(title)
     Story.append(Spacer(1,0.1*inch))
@@ -418,7 +418,7 @@ def course_registration_form(request):
 
     # FIRST SEMESTER
     count = 0
-    header = [('S/No', 'Course Code', 'Course Title', 'Unit', Paragraph('Name, Siganture of course lecturer & Date', style['Normal']))]
+    header = [('S/No', 'Course Code', 'Course Title', 'Unit', Paragraph('Name, Siganture of course instructor & Date', style['Normal']))]
     table_header = Table(header,1*[1.4*inch], 1*[0.5*inch])
     table_header.setStyle(
         TableStyle([
@@ -482,7 +482,7 @@ def course_registration_form(request):
     Story.append(semester_title)
     # SECOND SEMESTER
     count = 0
-    header = [('S/No', 'Course Code', 'Course Title', 'Unit', Paragraph('<b>Name, Signature of course lecturer & Date</b>', style['Normal']))]
+    header = [('S/No', 'Course Code', 'Course Title', 'Unit', Paragraph('<b>Name, Signature of course instructor & Date</b>', style['Normal']))]
     table_header = Table(header,1*[1.4*inch], 1*[0.5*inch])
     table_header.setStyle(
         TableStyle([

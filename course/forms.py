@@ -43,20 +43,20 @@ class CourseAllocationForm(forms.ModelForm):
         widget=forms.CheckboxSelectMultiple(attrs={'class': 'browser-default checkbox'}),
         required=True
     )
-    lecturer = forms.ModelChoiceField(
-        queryset=User.objects.filter(is_lecturer=True),
+    instructor = forms.ModelChoiceField(
+        queryset=User.objects.filter(is_instructor=True),
         widget=forms.Select(attrs={'class': 'browser-default custom-select'}),
-        label="lecturer",
+        label="instructor",
     )
 
     class Meta:
         model = CourseAllocation
-        fields = ['lecturer', 'courses']
+        fields = ['instructor', 'courses']
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
         super(CourseAllocationForm, self).__init__(*args, **kwargs)
-        self.fields['lecturer'].queryset = User.objects.filter(is_lecturer=True)
+        self.fields['instructor'].queryset = User.objects.filter(is_instructor=True)
 
 
 class EditCourseAllocationForm(forms.ModelForm):
@@ -65,20 +65,20 @@ class EditCourseAllocationForm(forms.ModelForm):
         widget=forms.CheckboxSelectMultiple,
         required=True
     )
-    lecturer = forms.ModelChoiceField(
-        queryset=User.objects.filter(is_lecturer=True),
+    instructor = forms.ModelChoiceField(
+        queryset=User.objects.filter(is_instructor=True),
         widget=forms.Select(attrs={'class': 'browser-default custom-select'}),
-        label="lecturer",
+        label="instructor",
     )
 
     class Meta:
         model = CourseAllocation
-        fields = ['lecturer', 'courses']
+        fields = ['instructor', 'courses']
 
     def __init__(self, *args, **kwargs):
         #    user = kwargs.pop('user')
         super(EditCourseAllocationForm, self).__init__(*args, **kwargs)
-        self.fields['lecturer'].queryset = User.objects.filter(is_lecturer=True)
+        self.fields['instructor'].queryset = User.objects.filter(is_instructor=True)
 
 
 # Upload files to specific course

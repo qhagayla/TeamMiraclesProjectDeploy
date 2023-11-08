@@ -6,7 +6,7 @@ from django.contrib.auth.views import (
 from .views import (
         profile, profile_single, admin_panel, 
         profile_update, change_password, 
-        LecturerListView, StudentListView, 
+        InstructorListView, StudentListView, 
         staff_add_view, edit_staff, 
         delete_staff, student_add_view, 
         edit_student, delete_student, ParentAdd, validate_username, register
@@ -24,10 +24,10 @@ urlpatterns = [
     path('setting/', profile_update, name='edit_profile'),
     path('change_password/', change_password, name='change_password'),
 
-    path('lecturers/', LecturerListView.as_view(), name='lecturer_list'),
-    path('lecturer/add/', staff_add_view, name='add_lecturer'),
+    path('instructors/', InstructorListView.as_view(), name='instructor_list'),
+    path('instructor/add/', staff_add_view, name='add_instructor'),
     path('staff/<int:pk>/edit/', edit_staff, name='staff_edit'),
-    path('lecturers/<int:pk>/delete/', delete_staff, name='lecturer_delete'),
+    path('instructors/<int:pk>/delete/', delete_staff, name='instructor_delete'),
 
     path('students/', StudentListView.as_view(), name='student_list'),
     path('student/add/', student_add_view, name='add_student'),

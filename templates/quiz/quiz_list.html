@@ -30,7 +30,7 @@
     <div class="header-title-xl text-center">Quiz list of {{ course }}</div>
     <div class="title-line mb-5"></div>
 
-    {% if request.user.is_superuser or request.user.is_lecturer %}
+    {% if request.user.is_superuser or request.user.is_instructor %}
     <a class="btn btn-outline-primary br-2 mb-4" href="{% url 'quiz_create' course.slug %}">&plus; Add Quiz</a>
     {% endif %}
 
@@ -38,7 +38,7 @@
         {% for quiz in quizzes %}
         <div class="col-md-4 mb-4 mx-auto text-center">
             <div class="card p-2 quiz-wrapper">
-                {% if request.user.is_superuser or request.user.is_lecturer %}
+                {% if request.user.is_superuser or request.user.is_instructor %}
                 <div class="update-delete-wrapper">
                     <div class="navbar">
                         <li class="dropdown">

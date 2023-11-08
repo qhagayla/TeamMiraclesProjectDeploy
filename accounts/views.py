@@ -14,7 +14,7 @@ from django.contrib.auth.forms import (
     PasswordChangeForm,
 )
 
-from .decorators import lecturer_required, student_required, admin_required
+from .decorators import instructor_required, student_required, admin_required
 from course.models import Course
 from result.models import TakenCourse
 from app.models import Session, Semester
@@ -51,9 +51,9 @@ def profile(request):
         is_current_semester=True, session=current_session
     ).first()
 
-    if request.user.is_lecturer:
+    if request.user.is_instructor:
         courses = Course.objects.filter(
-            allocated_course__lecturer__pk=request.user.id
+            allocated_course__instructor__pk=request.user.id
         ).filter(semester=current_semester)
         return render(
             request,
@@ -84,7 +84,7 @@ def profile(request):
         }
         return render(request, "accounts/profile.html", context)
     else:
-        staff = User.objects.filter(is_lecturer=True)
+        staff = User.objects.filter(is_instructor=True)
         return render(
             request,
             "accounts/profile.html",
@@ -110,14 +110,14 @@ def profile_single(request, id):
     ).first()
 
     user = User.objects.get(pk=id)
-    if user.is_lecturer:
-        courses = Course.objects.filter(allocated_course__lecturer__pk=id).filter(
+    if user.is_instructor:
+        courses = Course.objects.filter(allocated_course__instructor__pk=id).filter(
             semester=current_semester
         )
         context = {
             "title": user.get_full_name,
             "user": user,
-            "user_type": "Lecturer",
+            "user_type": "Instructor",
             "courses": courses,
             "current_session": current_session,
             "current_semester": current_semester,
@@ -219,18 +219,18 @@ def staff_add_view(request):
             form.save()
             messages.success(
                 request,
-                "Account for lecturer "
+                "Account for instructor "
                 + first_name
                 + " "
                 + last_name
                 + " has been created.",
             )
-            return redirect("lecturer_list")
+            return redirect("instructor_list")
     else:
         form = StaffAddForm()
 
     context = {
-        "title": "Lecturer Add | DjangoSMS",
+        "title": "Instructor Add | DjangoSMS",
         "form": form,
     }
 
@@ -240,57 +240,57 @@ def staff_add_view(request):
 @login_required
 @admin_required
 def edit_staff(request, pk):
-    instance = get_object_or_404(User, is_lecturer=True, pk=pk)
+    instance = get_object_or_404(User, is_instructor=True, pk=pk)
     if request.method == "POST":
         form = ProfileUpdateForm(request.POST, request.FILES, instance=instance)
         full_name = instance.get_full_name
         if form.is_valid():
             form.save()
 
-            messages.success(request, "Lecturer " + full_name + " has been updated.")
-            return redirect("lecturer_list")
+            messages.success(request, "Instructor " + full_name + " has been updated.")
+            return redirect("instructor_list")
         else:
             messages.error(request, "Please correct the error below.")
     else:
         form = ProfileUpdateForm(instance=instance)
     return render(
         request,
-        "accounts/edit_lecturer.html",
+        "accounts/edit_instructor.html",
         {
-            "title": "Edit Lecturer | DjangoSMS",
+            "title": "Edit Instructor | DjangoSMS",
             "form": form,
         },
     )
 
 
 @method_decorator([login_required, admin_required], name="dispatch")
-class LecturerListView(ListView):
-    queryset = User.objects.filter(is_lecturer=True)
-    template_name = "accounts/lecturer_list.html"
+class InstructorListView(ListView):
+    queryset = User.objects.filter(is_instructor=True)
+    template_name = "accounts/instructor_list.html"
     paginate_by = 10  # if pagination is desired
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "Lecturers | DjangoSMS"
+        context["title"] = "Instructors | DjangoSMS"
         return context
 
 
 # @login_required
-# @lecturer_required
+# @instructor_required
 # def delete_staff(request, pk):
 #     staff = get_object_or_404(User, pk=pk)
 #     staff.delete()
-#     return redirect('lecturer_list')
+#     return redirect('instructor_list')
 
 
 @login_required
 @admin_required
 def delete_staff(request, pk):
-    lecturer = get_object_or_404(User, pk=pk)
-    full_name = lecturer.get_full_name
-    lecturer.delete()
-    messages.success(request, "Lecturer " + full_name + " has been deleted.")
-    return redirect("lecturer_list")
+    instructor = get_object_or_404(User, pk=pk)
+    full_name = instructor.get_full_name
+    instructor.delete()
+    messages.success(request, "Instructor " + full_name + " has been deleted.")
+    return redirect("instructor_list")
 
 
 # ########################################################

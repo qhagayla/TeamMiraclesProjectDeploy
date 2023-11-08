@@ -3,13 +3,13 @@
 
 {% block content %}
 
-<div id="input-nav"><a href="{% url 'home' %}" class="primary1">Home</a> <i>&rsaquo;</i> Lecturers</div>
+<div id="input-nav"><a href="{% url 'home' %}" class="primary1">Home</a> <i>&rsaquo;</i> Instructors</div>
 
 {% if request.user.is_superuser %}
-<a class="add-button" href="{% url 'add_lecturer' %}"><i class="fas fa-plus"></i>Add Lecturer</a>
+<a class="add-button" href="{% url 'add_instructor' %}"><i class="fas fa-plus"></i>Add Instructor</a>
 {% endif %}
 
-<p class="title-1"><i class="fas fa-chalkboard-teacher"></i>Lecturers List</p>
+<p class="title-1"><i class="fas fa-chalkboard-teacher"></i>Instructors List</p>
 <div class="title-line"></div>
 
 {% if messages %}
@@ -54,20 +54,20 @@
             </tr>
         </thead>
         <tbody>
-            {% for lecturer in object_list %}
+            {% for instructor in object_list %}
             <tr>
                 <td> {{ forloop.counter }}.</td>
-                <td>{{ lecturer.username }}</td>
-                <td><a href="{% url 'profile_single' lecturer.id %}">{{ lecturer.get_full_name }}</a></td>
-                <td>{{ lecturer.email }}</td>
-                <td>{{ lecturer.phone }}</td>
-                <td>{{ lecturer.address }}</td>
-                <td>{{ lecturer.last_login }}</td>
+                <td>{{ instructor.username }}</td>
+                <td><a href="{% url 'profile_single' instructor.id %}">{{ instructor.get_full_name }}</a></td>
+                <td>{{ instructor.email }}</td>
+                <td>{{ instructor.phone }}</td>
+                <td>{{ instructor.address }}</td>
+                <td>{{ instructor.last_login }}</td>
                 {% if request.user.is_superuser %}
                 <td> 
                     <div class="update-delete">
-                        <a href="{% url 'staff_edit' pk=lecturer.pk %}" class="update"><i class="fas fa-edit"></i></a>
-                        <form action="{% url 'lecturer_delete' pk=lecturer.pk %}">{% csrf_token %}
+                        <a href="{% url 'staff_edit' pk=instructor.pk %}" class="update"><i class="fas fa-edit"></i></a>
+                        <form action="{% url 'instructor_delete' pk=instructor.pk %}">{% csrf_token %}
                             <button type="submit" class="btn btn-sm"><i class="fas fa-trash-alt"></i></button>
                         </form>
                     </div>
@@ -80,11 +80,11 @@
                   <td></td>
                   <td>
                   <span class="text-danger">
-                    <i class="far fa-frown"></i>No Lecturer(s).
+                    <i class="far fa-frown"></i>No Instructor(s).
                     {% if request.user.is_superuser %}
-                    <a href="{% url 'add_lecturer' %}">
+                    <a href="{% url 'add_instructor' %}">
                     <i class="primary" style="font-size: 22px;">
-                       Add Lecturer Now.
+                       Add Instructor Now.
                     </i>
                     {% endif %}
                     </a>
@@ -106,7 +106,7 @@
 <script>
     const xhr = new XMLHttpRequest()
     const method = 'GET'
-    const url = "/accounts/lecturers/"
+    const url = "/accounts/instructors/"
     const responseType = "json"
   
     xhr.responseType = responseType

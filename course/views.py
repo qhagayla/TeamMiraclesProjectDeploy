@@ -11,7 +11,7 @@ from django.views.generic import ListView
 from accounts.models import User, Student
 from app.models import Session, Semester
 from result.models import TakenCourse
-from accounts.decorators import lecturer_required, student_required
+from accounts.decorators import instructor_required, student_required
 from .forms import (
     StratumForm, CourseAddForm, CourseAllocationForm, 
     EditCourseAllocationForm, UploadFormFile, UploadFormVideo
@@ -37,7 +37,7 @@ def stratum_view(request):
 
 
 @login_required
-@lecturer_required
+@instructor_required
 def stratum_add(request):
     if request.method == 'POST':
         form = StratumForm(request.POST)
@@ -74,7 +74,7 @@ def stratum_detail(request, pk):
 
 
 @login_required
-@lecturer_required
+@instructor_required
 def stratum_edit(request, pk):
     stratum = Stratum.objects.get(pk=pk)
 
@@ -94,7 +94,7 @@ def stratum_edit(request, pk):
 
 
 @login_required
-@lecturer_required
+@instructor_required
 def stratum_delete(request, pk):
     stratum = Stratum.objects.get(pk=pk)
     title = stratum.title
@@ -113,21 +113,21 @@ def course_single(request, slug):
     files = Upload.objects.filter(course__slug=slug)
     videos = UploadVideo.objects.filter(course__slug=slug)
 
-    # lecturers = User.objects.filter(allocated_lecturer__pk=course.id)
-    lecturers = CourseAllocation.objects.filter(courses__pk=course.id)
+    # instructors = User.objects.filter(allocated_instructor__pk=course.id)
+    instructors = CourseAllocation.objects.filter(courses__pk=course.id)
 
     return render(request, 'course/course_single.html', {
         'title': course.title,
         'course': course,
         'files': files,
         'videos': videos,
-        'lecturers': lecturers,
+        'instructors': instructors,
         'media_url': settings.MEDIA_ROOT,
     }, )
 
 
 @login_required
-@lecturer_required
+@instructor_required
 def course_add(request, pk):
     users = User.objects.all()
     if request.method == 'POST':
@@ -150,7 +150,7 @@ def course_add(request, pk):
 
 
 @login_required
-@lecturer_required
+@instructor_required
 def course_edit(request, slug):
     course = get_object_or_404(Course, slug=slug)
     if request.method == 'POST':
@@ -174,7 +174,7 @@ def course_edit(request, slug):
 
 
 @login_required
-@lecturer_required
+@instructor_required
 def course_delete(request, slug):
     course = Course.objects.get(slug=slug)
     # course_name = course.title
@@ -200,7 +200,7 @@ class CourseAllocationFormView(CreateView):
 
     def form_valid(self, form):
         # if a staff has been allocated a course before update it else create new
-        lecturer = form.cleaned_data['lecturer']
+        instructor = form.cleaned_data['instructor']
         selected_courses = form.cleaned_data['courses']
         courses = ()
         for course in selected_courses:
@@ -208,9 +208,9 @@ class CourseAllocationFormView(CreateView):
         # print(courses)
 
         try:
-            a = CourseAllocation.objects.get(lecturer=lecturer)
+            a = CourseAllocation.objects.get(instructor=instructor)
         except:
-            a = CourseAllocation.objects.create(lecturer=lecturer)
+            a = CourseAllocation.objects.create(instructor=instructor)
         for i in range(0, selected_courses.count()):
             a.courses.add(courses[i])
             a.save()
@@ -232,7 +232,7 @@ def course_allocation_view(request):
 
 
 @login_required
-@lecturer_required
+@instructor_required
 def edit_allocated_course(request, pk):
     allocated = get_object_or_404(CourseAllocation, pk=pk)
     if request.method == 'POST':
@@ -251,7 +251,7 @@ def edit_allocated_course(request, pk):
 
 
 @login_required
-@lecturer_required
+@instructor_required
 def deallocate_course(request, pk):
     course = CourseAllocation.objects.get(pk=pk)
     course.delete()
@@ -264,7 +264,7 @@ def deallocate_course(request, pk):
 # File Upload views
 # ########################################################
 @login_required
-@lecturer_required
+@instructor_required
 def handle_file_upload(request, slug):
     course = Course.objects.get(slug=slug)
     if request.method == 'POST':
@@ -283,7 +283,7 @@ def handle_file_upload(request, slug):
 
 
 @login_required
-@lecturer_required
+@instructor_required
 def handle_file_edit(request, slug, file_id):
     course = Course.objects.get(slug=slug)
     instance = Upload.objects.get(pk=file_id)
@@ -314,7 +314,7 @@ def handle_file_delete(request, slug, file_id):
 # Video Upload views
 # ########################################################
 @login_required
-@lecturer_required
+@instructor_required
 def handle_video_upload(request, slug):
     course = Course.objects.get(slug=slug)
     if request.method == 'POST':
@@ -332,7 +332,7 @@ def handle_video_upload(request, slug):
 
 
 @login_required
-# @lecturer_required
+# @instructor_required
 def handle_video_single(request, slug, video_slug):
     course = get_object_or_404(Course, slug=slug)
     video = get_object_or_404(UploadVideo, slug=video_slug)
@@ -340,7 +340,7 @@ def handle_video_single(request, slug, video_slug):
 
 
 @login_required
-@lecturer_required
+@instructor_required
 def handle_video_edit(request, slug, video_slug):
     course = Course.objects.get(slug=slug)
     instance = UploadVideo.objects.get(slug=video_slug)
@@ -456,8 +456,8 @@ def course_drop(request):
 
 @login_required
 def user_course_list(request):
-    if request.user.is_lecturer:
-        courses = Course.objects.filter(allocated_course__lecturer__pk=request.user.id)
+    if request.user.is_instructor:
+        courses = Course.objects.filter(allocated_course__instructor__pk=request.user.id)
 
         return render(request, 'course/user_course_list.html', {'courses': courses})
 

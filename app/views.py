@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
-from accounts.decorators import admin_required, lecturer_required
+from accounts.decorators import admin_required, instructor_required
 from .forms import SessionForm, SemesterForm, NewsAndEventsForm
 from .models import *
 
@@ -42,7 +42,7 @@ def post_add(request):
 
 
 @login_required
-@lecturer_required
+@instructor_required
 def edit_post(request, pk):
     instance = get_object_or_404(NewsAndEvents, pk=pk)
     if request.method == 'POST':
@@ -64,7 +64,7 @@ def edit_post(request, pk):
 
 
 @login_required
-@lecturer_required
+@instructor_required
 def delete_post(request, pk):
     post = get_object_or_404(NewsAndEvents, pk=pk)
     title = post.title
@@ -76,7 +76,7 @@ def delete_post(request, pk):
 # Session
 # ########################################################
 @login_required
-@lecturer_required
+@instructor_required
 def session_list_view(request):
     """ Show list of all sessions """
     sessions = Session.objects.all().order_by('-is_current_session', '-session')
@@ -84,7 +84,7 @@ def session_list_view(request):
 
 
 @login_required
-@lecturer_required
+@instructor_required
 def session_add_view(request):
     """ check request method, if POST we add session otherwise show empty form """
     if request.method == 'POST':
@@ -114,7 +114,7 @@ def session_add_view(request):
 
 
 @login_required
-@lecturer_required
+@instructor_required
 def session_update_view(request, pk):
     session = Session.objects.get(pk=pk)
     if request.method == 'POST':
@@ -146,7 +146,7 @@ def session_update_view(request, pk):
 
 
 @login_required
-@lecturer_required
+@instructor_required
 def session_delete_view(request, pk):
     session = get_object_or_404(Session, pk=pk)
 
@@ -164,14 +164,14 @@ def session_delete_view(request, pk):
 # Semester
 # ########################################################
 @login_required
-@lecturer_required
+@instructor_required
 def semester_list_view(request):
     semesters = Semester.objects.all().order_by('-is_current_semester', '-semester')
     return render(request, 'app/semester_list.html', {"semesters": semesters, })
 
 
 @login_required
-@lecturer_required
+@instructor_required
 def semester_add_view(request):
     if request.method == 'POST':
         form = SemesterForm(request.POST)
@@ -217,7 +217,7 @@ def semester_add_view(request):
 
 
 @login_required
-@lecturer_required
+@instructor_required
 def semester_update_view(request, pk):
     semester = Semester.objects.get(pk=pk)
     if request.method == 'POST':
@@ -249,7 +249,7 @@ def semester_update_view(request, pk):
 
 
 @login_required
-@lecturer_required
+@instructor_required
 def semester_delete_view(request, pk):
     semester = get_object_or_404(Semester, pk=pk)
     if semester.is_current_semester:

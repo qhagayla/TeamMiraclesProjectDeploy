@@ -24,7 +24,7 @@
 					<p class="container text-muted-xs text-center">
 						Last login: {{ request.user.last_login|date }}</p>
 
-					{% if request.user.is_lecturer or request.user.is_student %}
+					{% if request.user.is_instructor or request.user.is_student %}
 					<a class="dropdown-item" href="{% url 'user_course_list' %}"><i class="fas fa-book"></i>My
 						Courses</a>
 					{% endif %}

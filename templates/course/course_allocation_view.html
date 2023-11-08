@@ -27,7 +27,7 @@
 
 <div class="content-center">
     <form class="search-form" action="" method="POST">{% csrf_token %}
-        <input class="au-input" type="text" name="lecturer" placeholder="Lecturer" value="{{ request.GET.lecturer }}"/>
+        <input class="au-input" type="text" name="instructor" placeholder="Instructor" value="{{ request.GET.instructor }}"/>
         <input class="au-input" type="text" name="course" placeholder="Course" value="{{ request.GET.course }}"/>
         <button class="btn btn-light" type="submit">
             <i class="fas fa-search"></i> filter
@@ -40,7 +40,7 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>Lecturer</th>
+                <th>Instructor</th>
                 <th>Courses</th>
                 {% if request.user.is_superuser %}
                 <th>Action</th>
@@ -51,7 +51,7 @@
         <tbody>
             <tr>
                 <td> {{ forloop.counter }}.</td>
-                <td><a href="{{ course.lecturer.get_absolute_url }}">{{ course.lecturer.get_full_name }}</a></td>
+                <td><a href="{{ course.instructor.get_absolute_url }}">{{ course.instructor.get_full_name }}</a></td>
                 <td><div class="flex">{% for i in course.courses.all %}
                         <div class="flex"><a class="edit-btn" href="{{ i.get_absolute_url }}">{{ i }}</a></div>
                     {% endfor %}</div>

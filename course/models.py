@@ -115,12 +115,12 @@ pre_save.connect(course_pre_save_receiver, sender=Course)
 
 
 class CourseAllocation(models.Model):
-    lecturer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='allocated_lecturer')
+    instructor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='allocated_instructor')
     courses = models.ManyToManyField(Course, related_name='allocated_course')
     session = models.ForeignKey("app.Session", on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
-        return self.lecturer.get_full_name
+        return self.instructor.get_full_name
 
     def get_absolute_url(self):
         return reverse('edit_allocated_course', kwargs={'pk': self.pk})

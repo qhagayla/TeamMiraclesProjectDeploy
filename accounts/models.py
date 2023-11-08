@@ -53,7 +53,7 @@ class UserManager(UserManager):
 
 class User(AbstractUser):
     is_student = models.BooleanField(default=False)
-    is_lecturer = models.BooleanField(default=False)
+    is_instructor = models.BooleanField(default=False)
     is_parent = models.BooleanField(default=False)
     is_dep_head = models.BooleanField(default=False)
     phone = models.CharField(max_length=60, blank=True, null=True)
@@ -81,8 +81,8 @@ class User(AbstractUser):
             return "Admin"
         elif self.is_student:
             return "Student"
-        elif self.is_lecturer:
-            return "Lecturer"
+        elif self.is_instructor:
+            return "Instructor"
         elif self.is_parent:
             return "Parent"
 
