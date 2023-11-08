@@ -59,7 +59,7 @@
 	<thead>
 	  <tr>
 		<th>#</th>
-		<th>{% trans "Quiz Title" %}</th>
+		<th>{% trans "Report Title" %}</th>
 		<th>{% trans "Score" %}</th>
 		<th>{% trans "Possible Score" %}</th>
 		<th>Out of 100%</th>
@@ -72,7 +72,7 @@
 
 	  <tr>
 		<td>{{ forloop.counter }}</td>
-		<td>{{ exam.quiz.title }}</td>
+		<td>{{ exam.report.title }}</td>
 		<td>{{ exam.current_score }}</td>
 		<td>{{ exam.get_max_score }}</td>
 		<td>{{ exam.get_percent_correct }}%</td>
@@ -86,7 +86,7 @@
 </div>
   {% endif %}
   {% if not cat_scores and not exams %}
- 	<div class="col-12 p-4 text-center"><h3><i class="far fa-frown"></i></h3> No recordes yet. to get a good recorde, try to do some quizzes in your course.</div> 
+ 	<div class="col-12 p-4 text-center"><h3><i class="far fa-frown"></i></h3> No recordes yet. to get a good recorde, try to do some reports in your course.</div> 
   {% endif %}
 
 {% endblock %}

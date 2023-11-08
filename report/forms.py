@@ -7,7 +7,7 @@ from django.db import transaction
 from django.forms.models import inlineformset_factory
 
 from accounts.models import User
-from .models import Question, Quiz, MCQuestion, Choice
+from .models import Question, Report, MCQuestion, Choice
 
 
 class QuestionForm(forms.Form):
@@ -24,10 +24,10 @@ class EssayForm(forms.Form):
             widget=Textarea(attrs={'style': 'width:100%'}))
 
 
-class QuizAddForm(forms.ModelForm):
+class ReportAddForm(forms.ModelForm):
 
     class Meta:
-        model = Quiz
+        model = Report
         exclude = []
 
     questions = forms.ModelMultipleChoiceField(
@@ -39,16 +39,16 @@ class QuizAddForm(forms.ModelForm):
             is_stacked=False))
 
     def __init__(self, *args, **kwargs):
-        super(QuizAddForm, self).__init__(*args, **kwargs)
+        super(ReportAddForm, self).__init__(*args, **kwargs)
         if self.instance.pk:
             self.fields['questions'].initial = self.instance.question_set.all().select_subclasses()
 
     def save(self, commit=True):
-        quiz = super(QuizAddForm, self).save(commit=False)
-        quiz.save()
-        quiz.question_set.set(self.cleaned_data['questions'])
+        report = super(ReportAddForm, self).save(commit=False)
+        report.save()
+        report.question_set.set(self.cleaned_data['questions'])
         self.save_m2m()
-        return quiz
+        return report
 
 
 class MCQuestionForm(forms.ModelForm):

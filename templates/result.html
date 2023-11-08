@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% load quiz_tags %}
+{% load report_tags %}
 
 
-{% block title %} {{ quiz.title}} {% endblock %}
-{% block description %} {% trans "Quiz Results for" %} {{ quiz.title }} {% endblock %}
+{% block title %} {{ report.title}} {% endblock %}
+{% block description %} {% trans "Report Results for" %} {{ report.title }} {% endblock %}
 
 {% block content %}
 
@@ -14,8 +14,8 @@
   <a href="{% url 'stratums' %}" class="primary1">Stratums </a> 
   <a href="{% url 'stratum_detail' course.stratum.id %}" class="primary1">{{ course.stratum }} </a> 
   <a href="{{ course.get_absolute_url }}" class="primary1">{{ course }} </a> 
-  <a href="{% url 'quiz_index' course.slug %}" class="primary1">Quizzes</a> 
-  <a href="{% url 'quiz_take' course.id quiz.slug %}" class="primary1">{{ quiz.title|title }}</a> Result
+  <a href="{% url 'report_index' course.slug %}" class="primary1">Reports</a> 
+  <a href="{% url 'report_take' course.id report.slug %}" class="primary1">{{ report.title|title }}</a> Result
 </div>
 
 <div id="progress-card">
@@ -89,11 +89,11 @@
   {% if max_score %}
 
   <div class="card bg-white p-3">
-    <div class="header-title-xl text-center">{% trans "Quiz result" %}</div>
+    <div class="header-title-xl text-center">{% trans "Report result" %}</div>
     <div class="title-line"></div>
 	<p class="text-center">
-	  <small class="muted">{% trans "Quiz title" %}: </small>
-	  <strong>{{ quiz.title }}</strong></p>
+	  <small class="muted">{% trans "Report title" %}: </small>
+	  <strong>{{ report.title }}</strong></p>
 
 	<p class="lead text-center">
 	  {% trans "You answered" %} {{ score }} {% trans "questions correctly out of" %} {{ max_score }}, {% trans "giving you" %} {{ percent }}{% trans "% correct" %}
@@ -105,16 +105,16 @@
         style="height: {{ percent }}%;" ></div>
     </div><br>
 
-	{% if quiz.pass_mark %}
+	{% if report.pass_mark %}
   <div class="card p-1" style="border: 1px solid #fd7e14;">
     <p class="lead bg-light p-3 text-orange"><span class="fa-1x">&CircleDot;</span> {{ sitting.result_message }}</p>
     {% endif %}
-	    <p><span class="fa-2x text-orange">&LongRightArrow;</span> {% trans "Review the questions below and try the quiz again in the future"%}.</p>
+	    <p><span class="fa-2x text-orange">&LongRightArrow;</span> {% trans "Review the questions below and try the report again in the future"%}.</p>
       
       <p>
         <span class="fa-2x text-orange">&LongRightArrow;</span> 
-        {% trans "The result of this quiz will be stored in your progress section" %} 
-        <a class="text-primary" href="{% url 'quiz_progress' %}">Here</a> 
+        {% trans "The result of this report will be stored in your progress section" %} 
+        <a class="text-primary" href="{% url 'report_progress' %}">Here</a> 
         {% trans "so you can review and monitor your progression" %}.
       </p>
 

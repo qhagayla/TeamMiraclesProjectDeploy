@@ -11,7 +11,7 @@ urlpatterns = [
     path('stratums/', include('course.urls')),
     path('result/', include('result.urls')),
     path('search/', include('search.urls')),
-    path('quiz/', include('quiz.urls')),
+    path('report/', include('report.urls')),
 
     path('payments/', include('payments.urls')),
 

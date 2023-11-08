@@ -25,11 +25,11 @@ CHOICE_ORDER_OPTIONS = (
 CATEGORY_OPTIONS = (
     ('assignment', _('Assignment')),
     ('exam', _('Exam')),
-    ('practice', _('Practice Quiz'))
+    ('practice', _('Practice Report'))
 )
 
 
-class QuizManager(models.Manager):
+class ReportManager(models.Manager):
     def search(self, query=None):
         qs = self.get_queryset()
         if query is not None:
@@ -42,11 +42,11 @@ class QuizManager(models.Manager):
         return qs
 
 
-class Quiz(models.Model):
+class Report(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
     title = models.CharField(verbose_name=_("Title"), max_length=60, blank=False)
     slug = models.SlugField(blank=True, unique=True)
-    description = models.TextField(verbose_name=_("Description"), blank=True, help_text=_("a description of the quiz"))
+    description = models.TextField(verbose_name=_("Description"), blank=True, help_text=_("a description of the report"))
     category = models.TextField(choices=CATEGORY_OPTIONS, blank=True)
     random_order = models.BooleanField(blank=False, default=False, verbose_name=_("Random Order"), 
         help_text=_("Display the questions in a random order or as they are set?"))
@@ -67,11 +67,11 @@ class Quiz(models.Model):
         help_text=_("Percentage required to pass exam."))
 
     draft = models.BooleanField(blank=True, default=False, verbose_name=_("Draft"),
-        help_text=_("If yes, the quiz is not displayed in the quiz list and can only be taken by users who can edit quizzes."))
+        help_text=_("If yes, the report is not displayed in the report list and can only be taken by users who can edit reports."))
 
     timestamp = models.DateTimeField(auto_now=True)
 
-    objects = QuizManager()
+    objects = ReportManager()
 
     def save(self, force_insert=False, force_update=False, *args, **kwargs):
 
@@ -83,11 +83,11 @@ class Quiz(models.Model):
         if self.pass_mark < 0:
             raise ValidationError('%s is below 0' % self.pass_mark)
 
-        super(Quiz, self).save(force_insert, force_update, *args, **kwargs)
+        super(Report, self).save(force_insert, force_update, *args, **kwargs)
 
     class Meta:
-        verbose_name = _("Quiz")
-        verbose_name_plural = _("Quizzes")
+        verbose_name = _("Report")
+        verbose_name_plural = _("Reports")
 
     def __str__(self):
         return self.title
@@ -100,15 +100,15 @@ class Quiz(models.Model):
         return self.get_questions().count()
 
     def get_absolute_url(self):
-        # return reverse('quiz_start_page', kwargs={'pk': self.pk})
-        return reverse('quiz_index', kwargs={'slug': self.course.slug})
+        # return reverse('report_start_page', kwargs={'pk': self.pk})
+        return reverse('report_index', kwargs={'slug': self.course.slug})
 
 
-def quiz_pre_save_receiver(sender, instance, *args, **kwargs):
+def report_pre_save_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = unique_slug_generator(instance)
 
-pre_save.connect(quiz_pre_save_receiver, sender=Quiz)
+pre_save.connect(report_pre_save_receiver, sender=Report)
 
 
 class ProgressManager(models.Manager):
@@ -146,7 +146,7 @@ class Progress(models.Model):
         if any([item is False for item in [score_to_add, possible_to_add, isinstance(score_to_add, int), isinstance(possible_to_add, int)]]):
             return _("error"), _("category does not exist or invalid score")
 
-        to_find = re.escape(str(question.quiz)) + r",(?P<score>\d+),(?P<possible>\d+),"
+        to_find = re.escape(str(question.report)) + r",(?P<score>\d+),(?P<possible>\d+),"
 
         match = re.search(to_find, self.score, re.IGNORECASE)
 
@@ -154,7 +154,7 @@ class Progress(models.Model):
             updated_score = int(match.group('score')) + abs(score_to_add)
             updated_possible = int(match.group('possible')) + abs(possible_to_add)
 
-            new_score = ",".join([str(question.quiz), str(updated_score), str(updated_possible), ""])
+            new_score = ",".join([str(question.report), str(updated_score), str(updated_possible), ""])
 
             # swap old score for the new one
             self.score = self.score.replace(match.group(), new_score)
@@ -162,7 +162,7 @@ class Progress(models.Model):
 
         else:
             #  if not present but existing, add with the points passed in
-            self.score += ",".join([str(question.quiz), str(score_to_add), str(possible_to_add), ""])
+            self.score += ",".join([str(question.report), str(score_to_add), str(possible_to_add), ""])
             self.save()
 
     def show_exams(self):
@@ -174,24 +174,24 @@ class Progress(models.Model):
 
 class SittingManager(models.Manager):
 
-    def new_sitting(self, user, quiz, course):
-        if quiz.random_order is True:
-            question_set = quiz.question_set.all().select_subclasses().order_by('?')
+    def new_sitting(self, user, report, course):
+        if report.random_order is True:
+            question_set = report.question_set.all().select_subclasses().order_by('?')
         else:
-            question_set = quiz.question_set.all().select_subclasses()
+            question_set = report.question_set.all().select_subclasses()
 
         question_set = [item.id for item in question_set]
 
         if len(question_set) == 0:
-            raise ImproperlyConfigured('Question set of the quiz is empty. Please configure questions properly')
+            raise ImproperlyConfigured('Question set of the report is empty. Please configure questions properly')
 
-        # if quiz.max_questions and quiz.max_questions < len(question_set):
-        #     question_set = question_set[:quiz.max_questions]
+        # if report.max_questions and report.max_questions < len(question_set):
+        #     question_set = question_set[:report.max_questions]
 
         questions = ",".join(map(str, question_set)) + ","
 
         new_sitting = self.create(
-            user=user, quiz=quiz, course=course, question_order=questions, 
+            user=user, report=report, course=course, question_order=questions, 
             question_list=questions, incorrect_questions="",
             current_score=0,
             complete=False,
@@ -199,21 +199,21 @@ class SittingManager(models.Manager):
         )
         return new_sitting
 
-    def user_sitting(self, user, quiz, course):
-        if quiz.single_attempt is True and self.filter(user=user, quiz=quiz, course=course, complete=True).exists():
+    def user_sitting(self, user, report, course):
+        if report.single_attempt is True and self.filter(user=user, report=report, course=course, complete=True).exists():
             return False
         try:
-            sitting = self.get(user=user, quiz=quiz, course=course, complete=False)
+            sitting = self.get(user=user, report=report, course=course, complete=False)
         except Sitting.DoesNotExist:
-            sitting = self.new_sitting(user, quiz, course)
+            sitting = self.new_sitting(user, report, course)
         except Sitting.MultipleObjectsReturned:
-            sitting = self.filter(user=user, quiz=quiz, course=course, complete=False)[0]
+            sitting = self.filter(user=user, report=report, course=course, complete=False)[0]
         return sitting
 
 
 class Sitting(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"), on_delete=models.CASCADE)
-    quiz = models.ForeignKey(Quiz, verbose_name=_("Quiz"), on_delete=models.CASCADE)
+    report = models.ForeignKey(Report, verbose_name=_("Report"), on_delete=models.CASCADE)
     course = models.ForeignKey(Course, null=True, verbose_name=_("Course"), on_delete=models.CASCADE)
 
     question_order = models.CharField(max_length=1024, verbose_name=_("Question Order"),
@@ -280,7 +280,7 @@ class Sitting(models.Model):
         else:
             return 0
 
-    def mark_quiz_complete(self):
+    def mark_report_complete(self):
         self.complete = True
         self.end = now()
         self.save()
@@ -306,14 +306,14 @@ class Sitting(models.Model):
 
     @property
     def check_if_passed(self):
-        return self.get_percent_correct >= self.quiz.pass_mark
+        return self.get_percent_correct >= self.report.pass_mark
 
     @property
     def result_message(self):
         if self.check_if_passed:
-            return f"You have passed this quiz, congratulation"
+            return f"You have passed this report, congratulation"
         else:
-            return f"You failed this quiz, give it one chance again."
+            return f"You failed this report, give it one chance again."
 
     def add_user_answer(self, question, guess):
         current = json.loads(self.user_answers)
@@ -323,7 +323,7 @@ class Sitting(models.Model):
 
     def get_questions(self, with_answers=False):
         question_ids = self._question_ids()
-        questions = sorted(self.quiz.question_set.filter(id__in=question_ids).select_subclasses(), key=lambda q: question_ids.index(q.id))
+        questions = sorted(self.report.question_set.filter(id__in=question_ids).select_subclasses(), key=lambda q: question_ids.index(q.id))
 
         if with_answers:
             user_answers = json.loads(self.user_answers)
@@ -347,7 +347,7 @@ class Sitting(models.Model):
 
 
 class Question(models.Model):
-    quiz = models.ManyToManyField(Quiz, verbose_name=_("Quiz"), blank=True)
+    report = models.ManyToManyField(Report, verbose_name=_("Report"), blank=True)
     figure = models.ImageField(upload_to='uploads/%Y/%m/%d', blank=True, null=True, verbose_name=_("Figure"))
     content = models.CharField(max_length=1000, blank=False, 
         help_text=_("Enter the question text that you want displayed"), verbose_name=_('Question'))

@@ -44,7 +44,7 @@ from django.db.models import Q
 from accounts.models import User, Student
 from app.models import NewsAndEvents
 from course.models import Stratum, Course
-from quiz.models import Quiz
+from report.models import Report
 
 
 class SearchView(ListView):
@@ -66,14 +66,14 @@ class SearchView(ListView):
             news_events_results  = NewsAndEvents.objects.search(query)
             stratum_results      = Stratum.objects.search(query)
             course_results       = Course.objects.search(query)
-            quiz_results         = Quiz.objects.search(query)
+            report_results         = Report.objects.search(query)
             
             # combine querysets 
             queryset_chain = chain(
                     news_events_results,
                     stratum_results,
                     course_results,
-                    quiz_results
+                    report_results
             )        
             qs = sorted(queryset_chain, 
                         key=lambda instance: instance.pk, 

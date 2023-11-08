@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('courses', models.ManyToManyField(related_name='allocated_course', to='course.Course')),
-                ('lecturer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='allocated_instructor', to=settings.AUTH_USER_MODEL)),
+                ('instructor', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='allocated_instructor', to=settings.AUTH_USER_MODEL)),
                 ('session', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='app.Session')),
             ],
         ),

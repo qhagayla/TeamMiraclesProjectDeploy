@@ -3,17 +3,17 @@ from django.contrib import admin
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.utils.translation import gettext_lazy as _
 
-from .models import Quiz, Progress, Question, MCQuestion, Choice, Essay_Question, Sitting
+from .models import Report, Progress, Question, MCQuestion, Choice, Essay_Question, Sitting
 
 
 class ChoiceInline(admin.TabularInline):
     model = Choice
 
 
-class QuizAdminForm(forms.ModelForm):
+class ReportAdminForm(forms.ModelForm):
 
     class Meta:
-        model = Quiz
+        model = Report
         exclude = []
 
     questions = forms.ModelMultipleChoiceField(
@@ -25,20 +25,20 @@ class QuizAdminForm(forms.ModelForm):
             is_stacked=False))
 
     def __init__(self, *args, **kwargs):
-        super(QuizAdminForm, self).__init__(*args, **kwargs)
+        super(ReportAdminForm, self).__init__(*args, **kwargs)
         if self.instance.pk:
             self.fields['questions'].initial = self.instance.question_set.all().select_subclasses()
 
     def save(self, commit=True):
-        quiz = super(QuizAdminForm, self).save(commit=False)
-        quiz.save()
-        quiz.question_set.set(self.cleaned_data['questions'])
+        report = super(ReportAdminForm, self).save(commit=False)
+        report.save()
+        report.question_set.set(self.cleaned_data['questions'])
         self.save_m2m()
-        return quiz
+        return report
 
 
-class QuizAdmin(admin.ModelAdmin):
-    form = QuizAdminForm
+class ReportAdmin(admin.ModelAdmin):
+    form = ReportAdminForm
 
     list_display = ('title', )
     # list_filter = ('category',)
@@ -48,10 +48,10 @@ class QuizAdmin(admin.ModelAdmin):
 class MCQuestionAdmin(admin.ModelAdmin):
     list_display = ('content', )
     # list_filter = ('category',)
-    fields = ('content', 'figure', 'quiz', 'explanation', 'choice_order')
+    fields = ('content', 'figure', 'report', 'explanation', 'choice_order')
 
     search_fields = ('content', 'explanation')
-    filter_horizontal = ('quiz',)
+    filter_horizontal = ('report',)
 
     inlines = [ChoiceInline]
 
@@ -63,11 +63,11 @@ class ProgressAdmin(admin.ModelAdmin):
 class EssayQuestionAdmin(admin.ModelAdmin):
     list_display = ('content', )
     # list_filter = ('category',)
-    fields = ('content', 'quiz', 'explanation', )
+    fields = ('content', 'report', 'explanation', )
     search_fields = ('content', 'explanation')
-    filter_horizontal = ('quiz',)
+    filter_horizontal = ('report',)
 
-admin.site.register(Quiz, QuizAdmin)
+admin.site.register(Report, ReportAdmin)
 admin.site.register(MCQuestion, MCQuestionAdmin)
 admin.site.register(Progress, ProgressAdmin)
 admin.site.register(Essay_Question, EssayQuestionAdmin)

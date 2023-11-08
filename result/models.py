@@ -100,7 +100,7 @@ class TakenCourse(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='taken_courses')
     assignment = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     mid_exam = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
-    quiz = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
+    report = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     attendance = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     final_exam = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     total = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
@@ -115,13 +115,13 @@ class TakenCourse(models.Model):
         return "{0} ({1})".format(self.course.title, self.course.code)
 
     # @staticmethod
-    def get_total(self, assignment, mid_exam, quiz, attendance, final_exam):
-        return float(assignment) + float(mid_exam) + float(quiz) + float(attendance) + float(final_exam) 
+    def get_total(self, assignment, mid_exam, report, attendance, final_exam):
+        return float(assignment) + float(mid_exam) + float(report) + float(attendance) + float(final_exam) 
 
     # @staticmethod
     def get_grade(self, total):
-        # total = float(assignment) + float(mid_exam) + float(quiz) + float(attendance) + float(final_exam)
-        # total = self.get_total(assignment=assignment, mid_exam=mid_exam, quiz=quiz, attendance=attendance, final_exam=final_exam)
+        # total = float(assignment) + float(mid_exam) + float(report) + float(attendance) + float(final_exam)
+        # total = self.get_total(assignment=assignment, mid_exam=mid_exam, report=report, attendance=attendance, final_exam=final_exam)
         # total = total
         if total >= 90:
             grade = A_plus

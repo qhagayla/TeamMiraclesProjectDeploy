@@ -8,7 +8,7 @@
 <div id="input-nav"><a href="{% url 'home' %}" class="primary1">Home</a> <i>&rsaquo;</i> 
     <a href="{% url 'stratums' %}" class="primary1"> Stratums</a> <i>&rsaquo;</i> 
     <a href="{% url 'stratum_detail' pk=1 %}" class="primary1"> {{ course.stratum }}</a> <i>&rsaquo;</i> 
-    <a href="{{ course.get_absolute_url }}" class="primary1"> {{ course }}</a> <i>&rsaquo;</i> Quiz List</div>
+    <a href="{{ course.get_absolute_url }}" class="primary1"> {{ course }}</a> <i>&rsaquo;</i> Report List</div>
 
 <div class="container">
 
@@ -27,51 +27,51 @@
 
     <style>.bg-light-warning{background-color: rgb(252, 217, 111) !important;}</style>
 
-    <div class="header-title-xl text-center">Quiz list of {{ course }}</div>
+    <div class="header-title-xl text-center">Report list of {{ course }}</div>
     <div class="title-line mb-5"></div>
 
     {% if request.user.is_superuser or request.user.is_instructor %}
-    <a class="btn btn-outline-primary br-2 mb-4" href="{% url 'quiz_create' course.slug %}">&plus; Add Quiz</a>
+    <a class="btn btn-outline-primary br-2 mb-4" href="{% url 'report_create' course.slug %}">&plus; Add Report</a>
     {% endif %}
 
     <div class="row">
-        {% for quiz in quizzes %}
+        {% for report in reports %}
         <div class="col-md-4 mb-4 mx-auto text-center">
-            <div class="card p-2 quiz-wrapper">
+            <div class="card p-2 report-wrapper">
                 {% if request.user.is_superuser or request.user.is_instructor %}
                 <div class="update-delete-wrapper">
                     <div class="navbar">
                         <li class="dropdown">
                             <a class="dropdown-toggle-split" href="#" id="dropdown01" data-toggle="dropdown"><i class="fas fa-ellipsis-v text-white"></i></a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown01">
-                                <a href="{% url 'quiz_update' slug=course.slug pk=quiz.id %}" class="update"><i class="fas fa-pencil-alt"></i> Edit</a>
-                                <a href="{% url 'quiz_delete' slug=course.slug pk=quiz.id %}" class="delete"><i class="fas fa-trash-alt"></i> Delete</a>
+                                <a href="{% url 'report_update' slug=course.slug pk=report.id %}" class="update"><i class="fas fa-pencil-alt"></i> Edit</a>
+                                <a href="{% url 'report_delete' slug=course.slug pk=report.id %}" class="delete"><i class="fas fa-trash-alt"></i> Delete</a>
                             </div>
                         </li>
                     </div>
                 </div>
                 {% endif %}
                 <div class="row text-success mb-4">
-                    <em class="col-6 text-left">{{ quiz.category|title }} Quiz</em>
+                    <em class="col-6 text-left">{{ report.category|title }} Report</em>
                     <div class="col-6 text-right info-text bg-danger" style="border-bottom-right-radius: 1px; border-top-right-radius: 1px;">
-                        {{ quiz.get_questions.count }} Questions
+                        {{ report.get_questions.count }} Questions
                     </div>
                 </div>
-                <!-- <p>{{ quiz.category|title }} Quiz</p> -->
-                <div class="card-title header-title-md">{{ quiz.title|title }}</div>
+                <!-- <p>{{ report.category|title }} Report</p> -->
+                <div class="card-title header-title-md">{{ report.title|title }}</div>
                 <!-- <div class="col-md-4 info-text bg-danger" style="float: right; width: auto;">
-                    {{ quiz.get_questions.count }} Questions
+                    {{ report.get_questions.count }} Questions
                 </div> -->
-                {% if quiz.single_attempt %}
-                <p class="p-2 bg-light-warning">{% trans "You will only get one attempt at this quiz" %}.</p>
+                {% if report.single_attempt %}
+                <p class="p-2 bg-light-warning">{% trans "You will only get one attempt at this report" %}.</p>
                 {% endif %}
-                <p class="text-muted">{{ quiz.description }} here is the description of this quiz...</p>
-                <!-- <p class="lead">{{ quiz.get_questions.count }} Questions</p> -->
+                <p class="text-muted">{{ report.description }} here is the description of this report...</p>
+                <!-- <p class="lead">{{ report.get_questions.count }} Questions</p> -->
                 <!-- <div class="row text-success mb-4">
-                    <small class="col-6 text-left">{% trans "Category" %}: <b>{{ quiz.category }}</b></small>
+                    <small class="col-6 text-left">{% trans "Category" %}: <b>{{ report.category }}</b></small>
                     <small class="col-6 text-right">Time set: <b>1:30</b></small>
                 </div> -->
-                <a class="btn btn-block btn-secondary" href="{% url 'quiz_take' pk=course.pk slug=quiz.slug %}">{% trans "Start quiz" %} &raquo;</a>
+                <a class="btn btn-block btn-secondary" href="{% url 'report_take' pk=course.pk slug=report.slug %}">{% trans "Start report" %} &raquo;</a>
             </div>
         </div>
         {% if forloop.counter|divisibleby:3 %}</div><div class="row">{% endif %}

@@ -2,8 +2,8 @@
 {% load i18n%}
 
 
-{% block title %} {{ quiz.title }} {% endblock %}
-{% block description %} {{ quiz.title }} - {{ quiz.description }} {% endblock %}
+{% block title %} {{ report.title }} {% endblock %}
+{% block description %} {{ report.title }} - {{ report.description }} {% endblock %}
 
 {% block content %}
 
@@ -11,11 +11,11 @@
 	<a href="{% url 'stratums' %}" class="primary1">Stratums </a> <i>&rsaquo;</i> 
 	<a href="{% url 'stratum_detail' course.stratum.id %}" class="primary1">{{ course.stratum }} </a> <i>&rsaquo;</i> 
 	<a href="{{ course.get_absolute_url }}" class="primary1">{{ course }} </a> <i>&rsaquo;</i> 
-	<a href="{% url 'quiz_index' course.slug %}" class="primary1">Quizzes</a> <i>&rsaquo;</i> {{ quiz.title|title }}</div>
+	<a href="{% url 'report_index' course.slug %}" class="primary1">Reports</a> <i>&rsaquo;</i> {{ report.title|title }}</div>
 
 <div class="container">
 
-    <div class="header-title-xl text-center">{{ quiz.title|title }}</div>
+    <div class="header-title-xl text-center">{{ report.title|title }}</div>
     <div class="title-line mb-2"></div>
 
 	{% if previous.answers %}
@@ -98,7 +98,7 @@
     <div id="popup-box-messages">
         <div class="box-messages">
             <a id="popup-btn-messages" class="btn btn-light"><i class="fas fa-times"></i></a>
-			<div class="lead">Quiz instractions</div>
+			<div class="lead">Report instractions</div>
 			<div class="alert alert-warning">
 				<p>
 					You can't go back to the previous question after you submit it, 
@@ -117,8 +117,8 @@
 	{% endif %}
 
 	<p>
-		<small class="muted">{% trans "Quiz category" %}:</small>
-		<strong>{{ quiz.category }}</strong>
+		<small class="muted">{% trans "Report category" %}:</small>
+		<strong>{{ report.category }}</strong>
 	</p>
 
 	<div class="card">

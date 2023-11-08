@@ -71,12 +71,12 @@
                 <p>{{ object.summary }}</p>
             </div><hr>
 
-        {% elif klass == 'Quiz' %}
+        {% elif klass == 'Report' %}
             <div class="session-wrapper">
-                <div class="session"><div class="info-text bg-orange">Quiz</div></div>
+                <div class="session"><div class="info-text bg-orange">Report</div></div>
             </div>
             <div class='col-12 class-item'>
-                <p>{{ object.category }} quiz,  <b>Course:</b> {{ object.course }}</p>
+                <p>{{ object.category }} report,  <b>Course:</b> {{ object.course }}</p>
                 <h4><a href='{{ object.get_absolute_url }}'><b>{{ object.title }}</b></a></h4>
                 <p>{{ object.description }}</p>
             </div><hr>
@@ -119,7 +119,7 @@
         <li>Stratum <span class="text-orange">></span> Title or Description</li>
         <li>Course <span class="text-orange">></span> Title, Code or Description</li>
         <li>News And Events <span class="text-orange">></span> Title, Description or just by typing "news" or "event"</li>
-        <li>Quiz <span class="text-orange">></span> Title, Description or Category(practice, assignment and exam)</li>
+        <li>Report <span class="text-orange">></span> Title, Description or Category(practice, assignment and exam)</li>
         <li></li>
         <li></li>
         <li></li>

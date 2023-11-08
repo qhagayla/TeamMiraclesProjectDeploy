@@ -6,22 +6,22 @@
     <a href="{% url 'stratums' %}" class="primary1"> Stratums</a> <i>&rsaquo;</i> 
     <a href="{% url 'stratum_detail' course.stratum.id %}" class="primary1"> {{ course.stratum }}</a> <i>&rsaquo;</i> 
     <a href="{{ course.get_absolute_url }}" class="primary1">{{ course }}</a> <i>&rsaquo;</i> 
-    <a href="{% url 'quiz_index' course.slug %}" class="primary1">Quiz list</a> <i>&rsaquo;</i> MC Question add for {{ quiz_obj }}</div>
+    <a href="{% url 'report_index' course.slug %}" class="primary1">Report list</a> <i>&rsaquo;</i> MC Question add for {{ report_obj }}</div>
 
 <div class="container">
 
-    <div class="header-title-xl text-center mt-4">Questions form for {{ quiz_obj }}</div>
+    <div class="header-title-xl text-center mt-4">Questions form for {{ report_obj }}</div>
     <div class="title-line mb-5"></div>
 
-    <div class="info-text bg-orange mb-3">{{ quizQuestions }} question added</div>
+    <div class="info-text bg-orange mb-3">{{ reportQuestions }} question added</div>
 
     <form action="#" method="POST">{% csrf_token %}
         {% if form.errors %}<p class="alert alert-danger">Correct the error(s) below.</p>{% endif %}
         <div class="row">
             <div class="col mx-3 py-4 border bg-white">
                 <div class="form-group" hidden>
-                    <label for="title">{{ form.quiz.label }}</label> {{ form.quiz }}
-                    <span class="danger">{{ form.quiz.errors }}</span>
+                    <label for="title">{{ form.report.label }}</label> {{ form.report }}
+                    <span class="danger">{{ form.report.errors }}</span>
                     <small class="d-block text-muted">Hold down "Control", or "Command" on a Mac, to select more than one.</small>
                 </div>
                 <div class="form-group">

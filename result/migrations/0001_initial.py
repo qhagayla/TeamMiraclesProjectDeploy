@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('assignment', models.DecimalField(decimal_places=2, default=0.0, max_digits=5)),
                 ('mid_exam', models.DecimalField(decimal_places=2, default=0.0, max_digits=5)),
-                ('quiz', models.DecimalField(decimal_places=2, default=0.0, max_digits=5)),
+                ('report', models.DecimalField(decimal_places=2, default=0.0, max_digits=5)),
                 ('attendance', models.DecimalField(decimal_places=2, default=0.0, max_digits=5)),
                 ('final_exam', models.DecimalField(decimal_places=2, default=0.0, max_digits=5)),
                 ('total', models.DecimalField(decimal_places=2, default=0.0, max_digits=5)),

@@ -27,7 +27,7 @@
 		{% url 'stratums' as pro %} {% url 'session_list' as sess %} {% url 'semester_list' as sem %}
 		{% url 'add_score' as ascore %} {% url 'grade_results' as vr %}{% url 'ass_results' as ar %}
 		{% url 'course_registration' as cr %} {% url 'edit_profile' as ep %} {% url 'change_password' as cp %}
-		{% url 'quiz_progress' as qpr %} {% url 'quiz_marking' as qce %} {% url 'user_course_list' as ucl %}
+		{% url 'report_progress' as qpr %} {% url 'report_marking' as qce %} {% url 'user_course_list' as ucl %}
 		{% url 'admin_panel' as admin_p %}
 		<ul>
 			{% if request.user.is_superuser %}
@@ -66,13 +66,13 @@
 
 			{% if request.user.is_superuser or request.user.is_instructor %}
 			<li class="{% if request.path == qce %}active{% endif %}">
-				<a href="{% url 'quiz_marking' %}"><i class="fas fa-check-double"></i>Complete Exams</a>
+				<a href="{% url 'report_marking' %}"><i class="fas fa-check-double"></i>Complete Exams</a>
 			</li>
 			{% endif %}
 
 			{% if request.user.is_superuser %}
 			<li class="{% if request.path == qpr %}active{% endif %}">
-				<a href="{% url 'quiz_progress' %}"><i class="fas fa-record-vinyl"></i>Quiz Progress Rec</a>
+				<a href="{% url 'report_progress' %}"><i class="fas fa-record-vinyl"></i>Report Progress Rec</a>
 			</li>
 			<li class="{% if request.path == cav %}active{% endif %}">
 				<a href="{% url 'course_allocation_view' %}"><i class="fas fa-tasks"></i>Course Allocation</a>
@@ -93,7 +93,7 @@
 
 			{% if request.user.is_student %}
 			<li class="{% if request.path == qpr %}active{% endif %}">
-				<a href="{% url 'quiz_progress' %}"><i class="fas fa-record-vinyl"></i>Quiz Progress Rec</a>
+				<a href="{% url 'report_progress' %}"><i class="fas fa-record-vinyl"></i>Report Progress Rec</a>
 			</li>
 			<li class="{% if request.path == vr %}active{% endif %}">
 				<a href="{% url 'grade_results' %}"><i class="fab fa-page4"></i>Grade Results</a>

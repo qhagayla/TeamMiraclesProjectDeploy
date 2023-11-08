@@ -265,6 +265,7 @@ def deallocate_course(request, pk):
 # ########################################################
 @login_required
 @instructor_required
+#@student_required
 def handle_file_upload(request, slug):
     course = Course.objects.get(slug=slug)
     if request.method == 'POST':
@@ -284,6 +285,7 @@ def handle_file_upload(request, slug):
 
 @login_required
 @instructor_required
+#@student_required
 def handle_file_edit(request, slug, file_id):
     course = Course.objects.get(slug=slug)
     instance = Upload.objects.get(pk=file_id)
@@ -474,3 +476,52 @@ def user_course_list(request):
 
     else:
         return render(request, 'course/user_course_list.html')
+
+@login_required
+#@instructor_required
+@student_required
+def handle_file_upload(request, slug):
+    course = Course.objects.get(slug=slug)
+    if request.method == 'POST':
+        form = UploadFormFile(request.POST, request.FILES, {'course': course})
+        # file_name = request.POST.get('name')
+        if form.is_valid():
+            form.save()
+            messages.success(request, (request.POST.get('title') + ' has been uploaded.'))
+            return redirect('course_detail', slug=slug)
+    else:
+        form = UploadFormFile()
+    return render(request, 'upload/upload_file_form.html', {
+        'title': "File Upload | DjangoSMS",
+        'form': form, 'course': course
+    })
+
+
+@login_required
+#@instructor_required
+@student_required
+def handle_file_edit(request, slug, file_id):
+    course = Course.objects.get(slug=slug)
+    instance = Upload.objects.get(pk=file_id)
+    if request.method == 'POST':
+        form = UploadFormFile(request.POST, request.FILES, instance=instance)
+        # file_name = request.POST.get('name')
+        if form.is_valid():
+            form.save()
+            messages.success(request, (request.POST.get('title') + ' has been updated.'))
+            return redirect('course_detail', slug=slug)
+    else:
+        form = UploadFormFile(instance=instance)
+
+    return render(request, 'upload/upload_file_form.html', {
+        'title': instance.title,
+        'form': form, 'course': course})
+
+
+def handle_file_delete(request, slug, file_id):
+    file = Upload.objects.get(pk=file_id)
+    # file_name = file.name
+    file.delete()
+
+    messages.success(request, (file.title + ' has been deleted.'))
+    return redirect('course_detail', slug=slug)

@@ -58,7 +58,7 @@ PROJECT_APPS = [
     "course.apps.CourseConfig",
     "result.apps.ResultConfig",
     "search.apps.SearchConfig",
-    "quiz.apps.QuizConfig",
+    "report.apps.ReportConfig",
     "payments.apps.PaymentsConfig",
 ]
 

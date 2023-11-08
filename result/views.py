@@ -103,21 +103,21 @@ def add_score_for(request, id):
             score = data.getlist(ids[s])  # get list of score for current student in the loop
             assignment = score[0]  # subscript the list to get the fisrt value > ca score
             mid_exam = score[1]  # do the same for exam score
-            quiz = score[2]
+            report = score[2]
             attendance = score[3]
             final_exam = score[4]
             obj = TakenCourse.objects.get(pk=ids[s])  # get the current student data
             obj.assignment = assignment  # set current student assignment score
             obj.mid_exam = mid_exam  # set current student mid_exam score
-            obj.quiz = quiz  # set current student quiz score
+            obj.report = report  # set current student report score
             obj.attendance = attendance  # set current student attendance score
             obj.final_exam = final_exam  # set current student final_exam score
 
-            obj.total = obj.get_total(assignment=assignment, mid_exam=mid_exam, quiz=quiz, attendance=attendance, final_exam=final_exam)
+            obj.total = obj.get_total(assignment=assignment, mid_exam=mid_exam, report=report, attendance=attendance, final_exam=final_exam)
             obj.grade = obj.get_grade(total=obj.total)
 
-            # obj.total = obj.get_total(assignment, mid_exam, quiz, attendance, final_exam)
-            # obj.grade = obj.get_grade(assignment, mid_exam, quiz, attendance, final_exam)
+            # obj.total = obj.get_total(assignment, mid_exam, report, attendance, final_exam)
+            # obj.grade = obj.get_grade(assignment, mid_exam, report, attendance, final_exam)
 
             obj.point = obj.get_point(grade=obj.grade)
 

@@ -1,19 +1,19 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% block title %}
-{% trans "Result of" %} {{ sitting.quiz.title }} {% trans "for" %} {{ sitting.user }}
+{% trans "Result of" %} {{ sitting.report.title }} {% trans "for" %} {{ sitting.user }}
 {% endblock %}
 
 {% block content %}
 <div id="input-nav"><a href="{% url 'home' %}" class="primary1">Home</a> <i>&rsaquo;</i> 
-	<a href="{% url 'quiz_marking' %}" class="primary1">Completed Exams</a> <i>&rsaquo;</i> Marking</div>
+	<a href="{% url 'report_marking' %}" class="primary1">Completed Exams</a> <i>&rsaquo;</i> Marking</div>
 
 <div class="row col-12 justify-content-between">
-	<div class="header-title-md">{% trans "Quiz title" %}: {{ sitting.quiz.title }}</div>
-	<em class="info-text title-danger">{% trans "Category" %}: {{ sitting.quiz.category }}</em>
+	<div class="header-title-md">{% trans "Report title" %}: {{ sitting.report.title }}</div>
+	<em class="info-text title-danger">{% trans "Category" %}: {{ sitting.report.category }}</em>
 </div>
 
-<p>{{ sitting.quiz.description }}</p>
+<p>{{ sitting.report.description }}</p>
 <hr>
 <p><b>{% trans "User" %}:</b> {{ sitting.user }}</p>
 <p><b>{% trans "Completed" %}:</b> {{ sitting.end|date }}</p>

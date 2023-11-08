@@ -15,7 +15,7 @@
     <div class="manage-wrap">
         <div class="row">
             <div class="col ml-auto">
-                {% if request.user.is_superuser or request.user.is_instructor %}
+                {% if request.user.is_superuser or request.user.is_instructor or request.user.is_student %}
                 <a class="add-button" href="{% url 'upload_file_view' course.slug %}"><i class="fas fa-plus"></i>
                     Upload new file
                 </a>
@@ -25,8 +25,8 @@
                 {% endif %}
             </div>
             <div class="col text-right">
-                <a class="btn btn-lg btn-warning" href="{% url 'quiz_index' course.slug %}"><i class="fas fa-list"></i>
-                    Take a Quiz
+                <a class="btn btn-lg btn-warning" href="{% url 'report_index' course.slug %}"><i class="fas fa-list"></i>
+                    Take a Report
                 </a>
             </div>
         </div>
@@ -68,7 +68,7 @@
                             <th>Video Title</th>
                             <th>Uploaded Date</th>
                             <th>Get Started</th>
-                            {% if request.user.is_superuser or request.user.is_instructor %}
+                            {% if request.user.is_superuser or request.user.is_instructor or request.user.is_student %}
                             <th>Actions</th>
                             {% endif %}
                         </tr>
@@ -91,7 +91,7 @@
                                 </div>
                             </th>
 
-                            {% if request.user.is_superuser or request.user.is_instructor %}
+                            {% if request.user.is_superuser or request.user.is_instructor or request.user.is_student %}
                             <td>
                                 <div class="update-delete">
                                     <a href="{% url 'upload_video_edit' slug=course.slug video_slug=video.slug %}"
@@ -113,7 +113,7 @@
                             <td>
                                 <span class="text-danger">
                                     <i class="far fa-frown fa-1x"></i> No video Uploaded.
-                                    {% if request.user.is_superuser or request.user.is_instructor %}
+                                    {% if request.user.is_superuser or request.user.is_instructor or request.user.is_student %}
                                     <a href="{% url 'upload_video' course.slug %}">
                                         <i class="primary" style="font-size: 22px;">
                                             Upload now.
@@ -145,7 +145,7 @@
                             <th>Uploaded Date</th>
                             <th>Updated Date</th>
                             <th>Downloads</th>
-                            {% if request.user.is_superuser or request.user.is_instructor %}
+                            {% if request.user.is_superuser or request.user.is_instructor or request.user.is_student %}
                             <th>Actions</th>
                             {% endif %}
                         </tr>
@@ -169,7 +169,7 @@
                                 </div>
                             </th>
 
-                            {% if request.user.is_superuser or request.user.is_instructor %}
+                            {% if request.user.is_superuser or request.user.is_instructor or request.user.is_student %}
                             <td>
                                 <div class="update-delete">
                                     <a href="{% url 'upload_file_edit' slug=course.slug file_id=file.pk %}"
@@ -191,7 +191,7 @@
                             <td>
                                 <span class="text-danger">
                                     <i class="far fa-frown fa-1x"></i> No File Uploaded.
-                                    {% if request.user.is_superuser or request.user.is_instructor %}
+                                    {% if request.user.is_superuser or request.user.is_instructor or request.user.is_student %}
                                     <a href="{% url 'upload_file_view' course.slug %}">
                                         <i class="primary" style="font-size: 22px;">
                                             Upload now.
