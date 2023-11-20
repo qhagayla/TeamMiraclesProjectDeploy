@@ -6,6 +6,6 @@ Specific Objectives:
 --Accepts user’s official university email account, name, account type (whether faculty or student), status (whether regular or irregular) and  section for account creation.
 --Allows the student user to upload documents limited to pdf file types, view details of partner companies, and track their progress based on a list of requirements.
 --Displays the uploaded files of the student user for faculty review.
---Generates reports containing aggregated tracking data for document compliance of individual students by week, month or semester.
---Prints students records by semester and academic year in a .pdf format.
+--Filters reports containing aggregated tracking data for document compliance of individual students by user's id or report title.
+--Manages students records by semester and academic year with ready to print in a .pdf format.
 -Test and evaluate the accuracy of the system
