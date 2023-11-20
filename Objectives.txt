@@ -7,5 +7,5 @@ Specific Objectives:
 --Allows the student user to upload documents limited to pdf file types, view details of partner companies, and track their progress based on a list of requirements.
 --Displays the uploaded files of the student user for faculty review.
 --Generates reports containing aggregated tracking data for document compliance of individual students by week, month or semester.
---Filters students records by semester and academic year in a ready to print .pdf format.
+--Prints students records by semester and academic year in a .pdf format.
 -Test and evaluate the accuracy of the system
