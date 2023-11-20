@@ -525,3 +525,57 @@ def handle_file_delete(request, slug, file_id):
 
     messages.success(request, (file.title + ' has been deleted.'))
     return redirect('course_detail', slug=slug)
+
+
+@login_required
+@student_required
+def handle_video_upload(request, slug):
+    course = Course.objects.get(slug=slug)
+    if request.method == 'POST':
+        form = UploadFormVideo(request.POST, request.FILES, {'course': course})
+        if form.is_valid():
+            form.save()
+            messages.success(request, (request.POST.get('title') + ' has been uploaded.'))
+            return redirect('course_detail', slug=slug)
+    else:
+        form = UploadFormVideo()
+    return render(request, 'upload/upload_video_form.html', {
+        'title': "Video Upload | DjangoSMS",
+        'form': form, 'course': course
+    })
+
+
+@login_required
+# @instructor_required
+def handle_video_single(request, slug, video_slug):
+    course = get_object_or_404(Course, slug=slug)
+    video = get_object_or_404(UploadVideo, slug=video_slug)
+    return render(request, 'upload/video_single.html', {'video': video})
+
+
+@login_required
+@student_required
+def handle_video_edit(request, slug, video_slug):
+    course = Course.objects.get(slug=slug)
+    instance = UploadVideo.objects.get(slug=video_slug)
+    if request.method == 'POST':
+        form = UploadFormVideo(request.POST, request.FILES, instance=instance)
+        if form.is_valid():
+            form.save()
+            messages.success(request, (request.POST.get('title') + ' has been updated.'))
+            return redirect('course_detail', slug=slug)
+    else:
+        form = UploadFormVideo(instance=instance)
+
+    return render(request, 'upload/upload_video_form.html', {
+        'title': instance.title,
+        'form': form, 'course': course})
+
+
+def handle_video_delete(request, slug, video_slug):
+    video = get_object_or_404(UploadVideo, slug=video_slug)
+    # video = UploadVideo.objects.get(slug=video_slug)
+    video.delete()
+
+    messages.success(request, (video.title + ' has been deleted.'))
+    return redirect('course_detail', slug=slug)
