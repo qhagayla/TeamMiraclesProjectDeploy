@@ -61,9 +61,9 @@
                 <p>{{ object.summary }}</p>
             </div><hr>
             
-        {% elif klass == 'NewsAndEvents' %}
+        {% elif klass == 'InsAndComs' %}
             <div class="session-wrapper">
-                <div class="session"><div class="info-text bg-orange">News And Events</div></div>
+                <div class="session"><div class="info-text bg-orange">Instructions And Companies</div></div>
             </div>
             <div class='col-12 class-item'>
                 <p><b>Date: </b> {{ object.updated_date|timesince }} ago</p>
@@ -118,7 +118,7 @@
     <ul class="pl-3">
         <li>Stratum <span class="text-orange">></span> Title or Description</li>
         <li>Course <span class="text-orange">></span> Title, Code or Description</li>
-        <li>News And Events <span class="text-orange">></span> Title, Description or just by typing "news" or "event"</li>
+        <li>Instructions And Companies <span class="text-orange">></span> Title, Description or just by typing "instructions" or "company"</li>
         <li>Report <span class="text-orange">></span> Title, Description or Category(practice, assignment and exam)</li>
         <li></li>
         <li></li>

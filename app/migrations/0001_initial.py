@@ -13,12 +13,12 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='NewsAndEvents',
+            name='InsAndComs',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=200, null=True)),
                 ('summary', models.TextField(blank=True, max_length=200, null=True)),
-                ('posted_as', models.CharField(choices=[('News', 'News'), ('Event', 'Event')], max_length=10)),
+                ('posted_as', models.CharField(choices=[('Instructions', 'Instructions'), ('Company', 'Company')], max_length=12)),
                 ('updated_date', models.DateTimeField(auto_now=True, null=True)),
                 ('upload_time', models.DateTimeField(auto_now_add=True, null=True)),
             ],
@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
             name='Semester',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('semester', models.CharField(blank=True, choices=[('First', 'First'), ('Second', 'Second'), ('Third', 'Third')], max_length=10)),
+                ('semester', models.CharField(blank=True, choices=[('First', 'First'), ('Second', 'Second'), ('Third', 'Third')], max_length=12)),
                 ('is_current_semester', models.BooleanField(blank=True, default=False, null=True)),
                 ('next_semester_begins', models.DateField(blank=True, null=True)),
                 ('session', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='app.Session')),

@@ -40,14 +40,14 @@
         }
     </style>
 
-    <div class="title-1">News & Events</div>
+    <div class="title-1">Instructions & Companies</div>
 
     <ul class="col-md-2 ml-auto d-flex">
         <li class="mr-3">
-            <span class="color-indicator bg-primary"></span> News
+            <span class="color-indicator bg-primary"></span> Instructions
         </li>
         <li>
-            <span class="color-indicator bg-purple"></span> Events
+            <span class="color-indicator bg-purple"></span> Companies
         </li>
     </ul>
     <style>
@@ -67,7 +67,7 @@
         {% for item in items %}
         <div class="col-md-4 mb-4">
             <div class="bg-white border">
-                <div class="card-header-ne {% if item.posted_as == 'News' %}news{% else %}events{% endif %} p-2">
+                <div class="card-header-ne {% if item.posted_as == 'Instructions' %}instructions{% else %}companies{% endif %} p-2">
                     <span class="p-0">
                         {{ item.title|title }}
                     </span>

@@ -1622,12 +1622,12 @@ a {
   border-radius: 2em;
 }
 
-.news {
+.instructions {
   background: linear-gradient(40deg, #45cafc, #303f9f) !important;
   color: #fff;
 }
 
-.events {
+.companies {
   background: linear-gradient(40deg, #ad86f6, #572ca7) !important;
   color: #fff;
 }

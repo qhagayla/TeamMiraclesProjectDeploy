@@ -1,16 +1,16 @@
 # from django.shortcuts import render
 # from django.views.generic import ListView
-# from app.models import NewsAndEvents
+# from app.models import InsAndComs
 
 
-# class SearchNewsAndEventsView(ListView):
+# class SearchInsAndComsView(ListView):
 #     template_name = "search/search_view.html"
 
 #     def get_context_data(self, *args, **kwargs):
-#         context = super(SearchNewsAndEventsView, self).get_context_data(*args, **kwargs)
+#         context = super(SearchInsAndComsView, self).get_context_data(*args, **kwargs)
 #         query = self.request.GET.get('q')
 #         context['query'] = query
-#         context['obj_counter'] = NewsAndEvents.objects.search(query).count()
+#         context['obj_counter'] = InsAndComs.objects.search(query).count()
 #         # SearchQuery.objects.create(query=query)
 #         return context
 
@@ -19,8 +19,8 @@
 #         method_dict = request.GET
 #         query = method_dict.get('q', None) # method_dict['q']
 #         if query is not None:
-#             return NewsAndEvents.objects.search(query)
-#         return NewsAndEvents.objects.all()
+#             return InsAndComs.objects.search(query)
+#         return InsAndComs.objects.all()
 #         '''
 #         __icontains = field contains this
 #         __iexact = fields is exactly this
@@ -42,7 +42,7 @@ from django.views.generic import ListView
 from django.db.models import Q
 
 from accounts.models import User, Student
-from app.models import NewsAndEvents
+from app.models import InsAndComs
 from course.models import Stratum, Course
 from report.models import Report
 
@@ -63,14 +63,14 @@ class SearchView(ListView):
         query = request.GET.get('q', None)
         
         if query is not None:
-            news_events_results  = NewsAndEvents.objects.search(query)
+            ins_coms_results  = insAndComs.objects.search(query)
             stratum_results      = Stratum.objects.search(query)
             course_results       = Course.objects.search(query)
             report_results         = Report.objects.search(query)
             
             # combine querysets 
             queryset_chain = chain(
-                    news_events_results,
+                    ins_coms_results,
                     stratum_results,
                     course_results,
                     report_results
@@ -80,4 +80,4 @@ class SearchView(ListView):
                         reverse=True)
             self.count = len(qs) # since qs is actually a list
             return qs
-        return NewsAndEvents.objects.none() # just an empty queryset as default
+        return InsAndComs.objects.none() # just an empty queryset as default

@@ -4,18 +4,18 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
 from accounts.decorators import admin_required, instructor_required
-from .forms import SessionForm, SemesterForm, NewsAndEventsForm
+from .forms import SessionForm, SemesterForm, InsAndComsForm
 from .models import *
 
 
 # ########################################################
-# News & Events
+# Instructions & Companies
 # ########################################################
 @login_required
 def home_view(request):
-    items = NewsAndEvents.objects.all().order_by('-updated_date')
+    items = InsAndComs.objects.all().order_by('-updated_date')
     context = {
-        'title': "News & Events | DjangoSMS",
+        'title': "Instructions & Companies | DjangoSMS",
         'items': items,
     }
     return render(request, 'app/index.html', context)
@@ -24,7 +24,7 @@ def home_view(request):
 @login_required
 def post_add(request):
     if request.method == 'POST':
-        form = NewsAndEventsForm(request.POST)
+        form = InsAndComsForm(request.POST)
         title = request.POST.get('title')
         if form.is_valid():
             form.save()
@@ -34,7 +34,7 @@ def post_add(request):
         else:
             messages.error(request, 'Please correct the error(s) below.')
     else:
-        form = NewsAndEventsForm()
+        form = InsAndComsForm()
     return render(request, 'app/post_add.html', {
         'title': 'Add Post | DjangoSMS',
         'form': form,
@@ -44,9 +44,9 @@ def post_add(request):
 @login_required
 @instructor_required
 def edit_post(request, pk):
-    instance = get_object_or_404(NewsAndEvents, pk=pk)
+    instance = get_object_or_404(InsAndComs, pk=pk)
     if request.method == 'POST':
-        form = NewsAndEventsForm(request.POST, instance=instance)
+        form = InsAndComsForm(request.POST, instance=instance)
         title = request.POST.get('title')
         if form.is_valid():
             form.save()
@@ -56,7 +56,7 @@ def edit_post(request, pk):
         else:
             messages.error(request, 'Please correct the error(s) below.')
     else:
-        form = NewsAndEventsForm(instance=instance)
+        form = InsAndComsForm(instance=instance)
     return render(request, 'app/post_add.html', {
         'title': 'Edit Post | DjangoSMS',
         'form': form,
@@ -66,7 +66,7 @@ def edit_post(request, pk):
 @login_required
 @instructor_required
 def delete_post(request, pk):
-    post = get_object_or_404(NewsAndEvents, pk=pk)
+    post = get_object_or_404(InsAndComs, pk=pk)
     title = post.title
     post.delete()
     messages.success(request, (title + ' has been deleted.'))

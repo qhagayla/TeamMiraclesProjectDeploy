@@ -1,13 +1,13 @@
 from django import forms
 from django.db import transaction
 
-from .models import NewsAndEvents, Session, Semester, SEMESTER
+from .models import InsAndComs, Session, Semester, SEMESTER
 
 
-# news and events
-class NewsAndEventsForm(forms.ModelForm):
+# instructions and companies
+class InsAndComsForm(forms.ModelForm):
     class Meta:
-        model = NewsAndEvents
+        model = InsAndComs
         fields = ('title', 'summary', 'posted_as',)
 
     def __init__(self, *args, **kwargs):

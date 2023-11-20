@@ -15,7 +15,7 @@
 					<i class="fas fa-times"></i>
 				</div>
 			</div>
-			<img src="{% static 'img/logo2.png' %}" width="150px" height="100px" alt="Logo Django LMS"><br><br>
+			<img src="{% static 'img/logo.png' %}" width="150px" height="100px" alt="Logo Django LMS"><br><br>
 			<p class="text-orange">
 					<i class="far fa-hand-point-right"></i>
 					{{ request.user.get_user_role }}
@@ -61,7 +61,7 @@
 			{% endif %}
 
 			<li class="{% if request.path == pro %}active{% endif %}">
-				<a href="{% url 'stratums' %}"><i class="fas fa-book-open"></i>Stratums</a>
+				<a href="{% url 'stratums' %}"><i class="fas fa-book-open"></i>Sections</a>
 			</li>
 
 			{% if request.user.is_superuser or request.user.is_instructor %}

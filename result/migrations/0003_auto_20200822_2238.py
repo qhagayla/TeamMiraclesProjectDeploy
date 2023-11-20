@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='result',
             name='status',
-            field=models.CharField(choices=[('Bachloar', 'Bachloar Degree'), ('Master', 'Master Degree')], max_length=25, null=True),
+            field=models.CharField(choices=[('Regular', 'Regular Student'), ('Irregular', 'Irregular Student')], max_length=25, null=True),
         ),
     ]

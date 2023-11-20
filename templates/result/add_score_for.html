@@ -67,7 +67,7 @@
         <span title="Allow editing" class="btn btn-success"><i class="fas fa-pencil-alt"></i>Edit</span>
         <a target="_blank" href="{% url 'result_sheet_pdf_view' id=course.id %}">
             <span data-toggle="tooltip" title="Print Result sheet" class="btn btn-warning">
-                <i class="far fa-file-pdf"></i>Generat PDF
+                <i class="far fa-file-pdf"></i>Generate PDF
             </span>
         </a>
     </div>
@@ -81,7 +81,7 @@
                     <th>Student</th>
                     <th>Assignment</th>
                     <th>Mid exam</th>
-                    <th>Quiz</th>
+                    <th>Report</th>
                     <th>Attendance</th>
                     <th>Final exam</th>
                     <th>Total</th>
@@ -102,7 +102,7 @@
                         <input id="mid_exam" type="number" name="{{ student.id }}" value="{{ student.mid_exam }}">
                     </td>
                     <td>
-                        <input id="quiz" type="number" name="{{ student.id }}" value="{{ student.quiz }}">
+                        <input id="report" type="number" name="{{ student.id }}" value="{{ student.report }}">
                     </td>
                     <td>
                         <input id="attendance" type="number" name="{{ student.id }}" value="{{ student.attendance }}">
