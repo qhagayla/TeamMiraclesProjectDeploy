@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=200, null=True)),
-                ('summary', models.TextField(blank=True, max_length=200, null=True)),
+                ('summary', models.TextField(blank=True, null=True)),
                 ('posted_as', models.CharField(choices=[('Instructions', 'Instructions'), ('Company', 'Company')], max_length=12)),
                 ('updated_date', models.DateTimeField(auto_now=True, null=True)),
                 ('upload_time', models.DateTimeField(auto_now_add=True, null=True)),
