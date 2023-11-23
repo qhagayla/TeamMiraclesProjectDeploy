@@ -63,7 +63,7 @@ class SearchView(ListView):
         query = request.GET.get('q', None)
         
         if query is not None:
-            ins_coms_results  = insAndComs.objects.search(query)
+            ins_coms_results  = InsAndComs.objects.search(query)
             stratum_results      = Stratum.objects.search(query)
             course_results       = Course.objects.search(query)
             report_results         = Report.objects.search(query)
