@@ -16,6 +16,7 @@
 				</div>
 			</div>
 			<img src="{% static 'img/logo.png' %}" width="150px" height="100px" alt="Logo Django LMS"><br><br>
+			<p><strong>Full Name: </strong>{{ user.get_full_name|title }}</p>
 			<p class="text-orange">
 					<i class="far fa-hand-point-right"></i>
 					{{ request.user.get_user_role }}
@@ -46,6 +47,9 @@
 			<li class="{% if request.path == admin_p %}active{% endif %}">
 				<a href="{% url 'admin_panel' %}"><i class="fas fa-user-tie"></i>Admin Panel</a>
 			</li>
+			{% endif %}
+
+			{% if request.user.is_superuser %}
 			<li class="{% if request.path == lec %}active{% endif %}">
 				<a href="{% url 'instructor_list' %}"><i class="fas fa-chalkboard-teacher"></i>Instructors</a>
 			</li>
@@ -66,7 +70,7 @@
 
 			{% if request.user.is_superuser or request.user.is_instructor %}
 			<li class="{% if request.path == qce %}active{% endif %}">
-				<a href="{% url 'report_marking' %}"><i class="fas fa-check-double"></i>Complete Exams</a>
+				<a href="{% url 'report_marking' %}"><i class="fas fa-check-double"></i>Reports</a>
 			</li>
 			{% endif %}
 

@@ -7,7 +7,7 @@
 <div class="container">
     <div id="input-nav" class="p-2">Home</div>
 
-    {% if request.user.is_superuser %}
+    {% if request.user.is_superuser or request.user.is_instructor %}
     <div class="manage-wrap">
         <a class="btn btn-primary" href="{% url 'add_item' %}"><i class="fas fa-plus"></i>Add New Post</a>
     </div>
@@ -68,10 +68,10 @@
         <div class="col-md-4 mb-4">
             <div class="bg-white border">
                 <div class="card-header-ne {% if item.posted_as == 'Instructions' %}instructions{% else %}companies{% endif %} p-2">
-                    <span class="p-0">
+                    <span class="p-0" style="white-space: normal; word-wrap: break-word; overflow: hidden; display: block;">
                         {{ item.title|title }}
                     </span>
-                    {% if request.user.is_superuser %}
+                    {% if request.user.is_superuser or request.user.is_instructor %}
                     <div class="dropdown">
                         <button class="btn btn-sm" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
@@ -87,7 +87,7 @@
                     {% endif %}
                 </div>
 
-                <div class="p-2"><p>{{ item.summary }}</p></div>
+                <div class="p-2"><p>{{ item.summary|linebreaks|urlize|safe }}</p></div>
 
                 <div class="date-wrapper">
                     <i class="fa fa-calendar mr-2"></i>

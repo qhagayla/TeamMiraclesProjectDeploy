@@ -4,9 +4,9 @@
 
 {% block content %}
 <div class="container">
-<div id="input-nav"><a href="{% url 'home' %}" class="primary1">Home</a> <i>&rsaquo;</i> Complete Exams</div>
+<div id="input-nav"><a href="{% url 'home' %}" class="primary1">Home</a> <i>&rsaquo;</i> Reports</div>
 
-<div class="header-title-xl text-center">{% trans "List of complete exams" %}</div>
+<div class="header-title-xl text-center">{% trans "List of reports" %}</div>
 <div class="title-line"></div>
 
 {% for student in students %}<h3>{{ student.student.user.get_full_name }}</h3>{% endfor %}
@@ -20,7 +20,7 @@
 
 {% if sitting_list %}
 
-	<div class="info-text bg-danger my-2">Total complete exams: {{ sitting_list.count }}</div>
+	<div class="info-text bg-danger my-2">Total reports: {{ sitting_list.count }}</div>
 
 	<table class="table table-bordered table-striped">
 		<thead>

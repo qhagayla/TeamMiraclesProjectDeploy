@@ -264,6 +264,7 @@ button,
 [type="reset"],
 [type="submit"] {
   -webkit-appearance: button;
+  appearance: listbox;
 }
 
 button:not(:disabled),
@@ -292,6 +293,7 @@ input[type="time"],
 input[type="datetime-local"],
 input[type="month"] {
   -webkit-appearance: listbox;
+  appearance: listbox;
 }
 
 textarea {
@@ -330,6 +332,7 @@ progress {
 [type="search"] {
   outline-offset: -2px;
   -webkit-appearance: none;
+  appearance: listbox;
 }
 
 [type="search"]::-webkit-search-decoration {
@@ -8311,6 +8314,8 @@ button.bg-dark:focus {
 
 .p-2 {
   padding: 0.5rem !important;
+  white-space: normal; /* Allow multiline text */
+  word-wrap: break-word;
 }
 
 .pt-2,

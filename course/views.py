@@ -11,7 +11,7 @@ from django.views.generic import ListView
 from accounts.models import User, Student
 from app.models import Session, Semester
 from result.models import TakenCourse
-from accounts.decorators import instructor_required, student_required
+from accounts.decorators import instructor_required, student_required, all_required
 from .forms import (
     StratumForm, CourseAddForm, CourseAllocationForm, 
     EditCourseAllocationForm, UploadFormFile, UploadFormVideo
@@ -264,7 +264,7 @@ def deallocate_course(request, pk):
 # File Upload views
 # ########################################################
 @login_required
-@instructor_required
+@all_required
 #@student_required
 def handle_file_upload(request, slug):
     course = Course.objects.get(slug=slug)
@@ -284,7 +284,7 @@ def handle_file_upload(request, slug):
 
 
 @login_required
-@instructor_required
+@all_required
 #@student_required
 def handle_file_edit(request, slug, file_id):
     course = Course.objects.get(slug=slug)
@@ -316,7 +316,7 @@ def handle_file_delete(request, slug, file_id):
 # Video Upload views
 # ########################################################
 @login_required
-@instructor_required
+@all_required
 def handle_video_upload(request, slug):
     course = Course.objects.get(slug=slug)
     if request.method == 'POST':
@@ -342,7 +342,7 @@ def handle_video_single(request, slug, video_slug):
 
 
 @login_required
-@instructor_required
+@all_required
 def handle_video_edit(request, slug, video_slug):
     course = Course.objects.get(slug=slug)
     instance = UploadVideo.objects.get(slug=video_slug)
@@ -477,105 +477,15 @@ def user_course_list(request):
     else:
         return render(request, 'course/user_course_list.html')
 
-@login_required
-#@instructor_required
-@student_required
-def handle_file_upload(request, slug):
-    course = Course.objects.get(slug=slug)
-    if request.method == 'POST':
-        form = UploadFormFile(request.POST, request.FILES, {'course': course})
-        # file_name = request.POST.get('name')
-        if form.is_valid():
-            form.save()
-            messages.success(request, (request.POST.get('title') + ' has been uploaded.'))
-            return redirect('course_detail', slug=slug)
-    else:
-        form = UploadFormFile()
-    return render(request, 'upload/upload_file_form.html', {
-        'title': "File Upload | DjangoSMS",
-        'form': form, 'course': course
-    })
 
 
-@login_required
-#@instructor_required
-@student_required
-def handle_file_edit(request, slug, file_id):
-    course = Course.objects.get(slug=slug)
-    instance = Upload.objects.get(pk=file_id)
-    if request.method == 'POST':
-        form = UploadFormFile(request.POST, request.FILES, instance=instance)
-        # file_name = request.POST.get('name')
-        if form.is_valid():
-            form.save()
-            messages.success(request, (request.POST.get('title') + ' has been updated.'))
-            return redirect('course_detail', slug=slug)
-    else:
-        form = UploadFormFile(instance=instance)
-
-    return render(request, 'upload/upload_file_form.html', {
-        'title': instance.title,
-        'form': form, 'course': course})
 
 
-def handle_file_delete(request, slug, file_id):
-    file = Upload.objects.get(pk=file_id)
-    # file_name = file.name
-    file.delete()
-
-    messages.success(request, (file.title + ' has been deleted.'))
-    return redirect('course_detail', slug=slug)
 
 
-@login_required
-@student_required
-def handle_video_upload(request, slug):
-    course = Course.objects.get(slug=slug)
-    if request.method == 'POST':
-        form = UploadFormVideo(request.POST, request.FILES, {'course': course})
-        if form.is_valid():
-            form.save()
-            messages.success(request, (request.POST.get('title') + ' has been uploaded.'))
-            return redirect('course_detail', slug=slug)
-    else:
-        form = UploadFormVideo()
-    return render(request, 'upload/upload_video_form.html', {
-        'title': "Video Upload | DjangoSMS",
-        'form': form, 'course': course
-    })
 
 
-@login_required
-# @instructor_required
-def handle_video_single(request, slug, video_slug):
-    course = get_object_or_404(Course, slug=slug)
-    video = get_object_or_404(UploadVideo, slug=video_slug)
-    return render(request, 'upload/video_single.html', {'video': video})
 
 
-@login_required
-@student_required
-def handle_video_edit(request, slug, video_slug):
-    course = Course.objects.get(slug=slug)
-    instance = UploadVideo.objects.get(slug=video_slug)
-    if request.method == 'POST':
-        form = UploadFormVideo(request.POST, request.FILES, instance=instance)
-        if form.is_valid():
-            form.save()
-            messages.success(request, (request.POST.get('title') + ' has been updated.'))
-            return redirect('course_detail', slug=slug)
-    else:
-        form = UploadFormVideo(instance=instance)
-
-    return render(request, 'upload/upload_video_form.html', {
-        'title': instance.title,
-        'form': form, 'course': course})
 
 
-def handle_video_delete(request, slug, video_slug):
-    video = get_object_or_404(UploadVideo, slug=video_slug)
-    # video = UploadVideo.objects.get(slug=video_slug)
-    video.delete()
-
-    messages.success(request, (video.title + ' has been deleted.'))
-    return redirect('course_detail', slug=slug)
