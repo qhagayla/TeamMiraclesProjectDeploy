@@ -6,8 +6,8 @@ from .models import TakenCourse, Result
 
 class ScoreAdmin(admin.ModelAdmin):
     list_display = [
-        'student', 'course', 'assignment', 'mid_exam', 'report',
-        'attendance', 'final_exam', 'total', 'grade', 'comment'
+        'student', 'course', 'report',
+        'attendance', 'total', 'grade', 'comment'
     ]
 
 

@@ -101,19 +101,15 @@ def add_score_for(request, id):
                 else:
                     total_credit_in_semester += int(i.credit)
             score = data.getlist(ids[s])  # get list of score for current student in the loop
-            assignment = score[0]  # subscript the list to get the fisrt value > ca score
-            mid_exam = score[1]  # do the same for exam score
-            report = score[2]
-            attendance = score[3]
-            final_exam = score[4]
-            obj = TakenCourse.objects.get(pk=ids[s])  # get the current student data
-            obj.assignment = assignment  # set current student assignment score
-            obj.mid_exam = mid_exam  # set current student mid_exam score
+            # do the same for exam score
+            report = score[0]
+            attendance = score[1]
+            obj = TakenCourse.objects.get(pk=ids[s])  # get the current student data # set current student mid_exam score
             obj.report = report  # set current student report score
             obj.attendance = attendance  # set current student attendance score
-            obj.final_exam = final_exam  # set current student final_exam score
+            # set current student final_exam score
 
-            obj.total = obj.get_total(assignment=assignment, mid_exam=mid_exam, report=report, attendance=attendance, final_exam=final_exam)
+            obj.total = obj.get_total(report=report, attendance=attendance)
             obj.grade = obj.get_grade(total=obj.total)
 
             # obj.total = obj.get_total(assignment, mid_exam, report, attendance, final_exam)
@@ -306,7 +302,7 @@ def result_sheet_pdf_view(request, id):
 
     for student in result:
 
-        data = [(count+1, student.student.student.username.upper(), Paragraph(student.student.student.get_full_name.capitalize(), styles['Normal']),  
+        data = [(count+1, student.student.student.username.upper(), Paragraph(student.student.student.get_full_name, styles['Normal']),  
         student.total, student.grade, student.point, student.comment)]
         color = colors.black
         if student.grade == 'F':

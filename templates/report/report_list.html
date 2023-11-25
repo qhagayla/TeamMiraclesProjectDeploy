@@ -25,9 +25,15 @@
         </div>
     {% endif %}
 
-    <style>.bg-light-warning{background-color: rgb(252, 217, 111) !important;}</style>
+    <style>
+        .bg-light-warning{background-color: rgb(252, 217, 111) !important;}
+        /* Custom color for the dropdown menu */
+        .card {
+            background-color: rgb(180, 228, 255) !important; /* Replace 'your_custom_color' with your desired color */
+        }
+    </style>
 
-    <div class="header-title-xl text-center">Report list of {{ course }}</div>
+    <div class="header-title-xl text-center">Report List of {{ course }}</div>
     <div class="title-line mb-5"></div>
 
     {% if request.user.is_superuser or request.user.is_instructor %}
@@ -37,7 +43,7 @@
     <div class="row">
         {% for report in reports %}
         <div class="col-md-4 mb-4 mx-auto text-center">
-            <div class="card p-2 report-wrapper">
+            <div class="card p-2">
                 {% if request.user.is_superuser or request.user.is_instructor %}
                 <div class="update-delete-wrapper">
                     <div class="navbar">
@@ -65,7 +71,7 @@
                 {% if report.single_attempt %}
                 <p class="p-2 bg-light-warning">{% trans "You will only get one attempt at this report" %}.</p>
                 {% endif %}
-                <p class="text-muted">{{ report.description }} here is the description of this report...</p>
+                <p class="text-muted">{{ report.description|linebreaks|urlize|safe }} </p>
                 <!-- <p class="lead">{{ report.get_questions.count }} Questions</p> -->
                 <!-- <div class="row text-success mb-4">
                     <small class="col-6 text-left">{% trans "Category" %}: <b>{{ report.category }}</b></small>
@@ -90,6 +96,10 @@
         document.getElementById('progress-card').style.display = 'none';
         document.getElementById('progress-main').style.display = 'block';
         clearInterval(timer)
-    }, 8000);           
+    }, 8000);     
+    // Close popup on button click
+    document.getElementById('popup-btn-messages').addEventListener('click', function() {
+        document.getElementById('popup-box-messages').style.display = 'none';
+    });      
 </script>
 {% endblock js %}

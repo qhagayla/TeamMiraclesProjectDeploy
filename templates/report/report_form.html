@@ -9,7 +9,7 @@
     <a href="{% url 'report_index' course.slug %}" class="primary1">Reports</a> <i>&rsaquo;</i> Add Report</div>
 
 <div class="container">
-    <div class="header-title-xl text-center">Report form for {{ course }}</div>
+    <div class="header-title-xl text-center">Report Form for {{ course }}</div>
     <div class="title-line mb-5"></div>
 
     <!-- <form method="POST" action="">{% csrf_token %}
@@ -123,7 +123,7 @@
                         {{ form.pass_mark }}
                         <!-- <input class="form-control" type="number" name="pass_mark" value="50" id="id_pass_mark"> -->
                         <span class="danger">{{ form.pass_mark.errors }}</span>
-                        <small class="d-block text-muted">Percentage required to pass exam.</small>
+                        <small class="d-block text-muted">Percentage required to pass.</small>
                     </div>
                     <div class="form-group">
                         <label for="description">{{ form.description.label }}</label><br>

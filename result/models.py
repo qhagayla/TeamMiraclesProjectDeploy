@@ -34,31 +34,31 @@ SEMESTER = (
     (THIRD, "Third"),
 )
 
-A_plus = "A+"
-A = "A"
-A_minus = "A-"
-B_plus = "B+"
-B = "B"
-B_minus = "B-"
-C_plus = "C+"
-C = "C"
-C_minus = "C-"
-D = "D"
-F = "F"
+Excellent = "Excellent"
+Superior = "Superior"
+Meritorious = "Meritorious"
+Very_Good = "Very Good"
+Good = "Good"
+Very_Satisfactory = "Very Satisfactory"
+Satisfactory = "Satisfactory"
+Fair = "Fair"
+Passing = "Passing"
+Incomplete = "Incomplete"
+Failed = "Failed"
 NG = "NG"
 
 GRADE = (
-        (A_plus, "A+"),
-        (A, "A"),
-        (A_minus, "A-"),
-        (B_plus, "B+"),
-        (B, "B"),
-        (B_minus, "B-"),
-        (C_plus, "C+"),
-        (C, "C"),
-        (C_minus, "C-"),
-        (D, "D"),
-        (F, "F"),
+        (Excellent, "Excellent"),
+        (Superior, "Superior"),
+        (Meritorious, "Meritorious"),
+        (Very_Good, "Very Good"),
+        (Good, "Good"),
+        (Very_Satisfactory, "Very Satisfactory"),
+        (Satisfactory, "Satisfactory"),
+        (Fair, "Fair"),
+        (Passing, "Passing"),
+        (Incomplete, "Incomplete"),
+        (Failed, "Failed"),
         (NG, "NG"),
 )
 
@@ -98,13 +98,10 @@ class TakenCourseManager(models.Manager):
 class TakenCourse(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='taken_courses')
-    assignment = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
-    mid_exam = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     report = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     attendance = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
-    final_exam = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     total = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
-    grade = models.CharField(choices=GRADE, max_length=2, blank=True)
+    grade = models.CharField(choices=GRADE, max_length=200, blank=True)
     point = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     comment = models.CharField(choices=COMMENT, max_length=200, blank=True)
 
@@ -115,43 +112,43 @@ class TakenCourse(models.Model):
         return "{0} ({1})".format(self.course.title, self.course.code)
 
     # @staticmethod
-    def get_total(self, assignment, mid_exam, report, attendance, final_exam):
-        return float(assignment) + float(mid_exam) + float(report) + float(attendance) + float(final_exam) 
+    def get_total(self, report, attendance):
+        return (float(report) + float(attendance)) / 2
 
     # @staticmethod
     def get_grade(self, total):
         # total = float(assignment) + float(mid_exam) + float(report) + float(attendance) + float(final_exam)
         # total = self.get_total(assignment=assignment, mid_exam=mid_exam, report=report, attendance=attendance, final_exam=final_exam)
         # total = total
-        if total >= 90:
-            grade = A_plus
-        elif total >= 85:
-            grade = A
-        elif total >= 80:
-            grade = A_minus
-        elif total >= 75:
-            grade = B_plus
-        elif total >= 70:
-            grade = B
-        elif total >= 65:
-            grade = B_minus
-        elif total >= 60:
-            grade = C_plus
-        elif total >= 55:
-            grade = C
+        if total >= 94:
+            grade = Excellent
+        elif total >= 88.5:
+            grade = Superior
+        elif total >= 83:
+            grade = Meritorious
+        elif total >= 77.5:
+            grade = Very_Good
+        elif total >= 72:
+            grade = Good
+        elif total >= 65.5:
+            grade = Very_Satisfactory
+        elif total >= 61:
+            grade = Satisfactory
+        elif total >= 55.5:
+            grade = Fair
         elif total >= 50:
-            grade = C_minus
-        elif total >= 45:
-            grade = D
-        elif total < 45:
-            grade = F
+            grade = Passing
+        elif total == " ":
+            grade = Incomplete
+        elif total < 50:
+            grade = Failed
         else:
             grade = NG
         return grade
 
     # @staticmethod
     def get_comment(self, grade):
-        if grade == F or grade == NG:
+        if grade == Failed or grade == NG:
             comment = FAIL
         # elif grade == NG:
         #     comment = FAIL
@@ -164,28 +161,28 @@ class TakenCourse(models.Model):
         # point = 0
         # for i in student:
         credit = self.course.credit
-        if self.grade == A_plus:
-            point = 4
-        elif self.grade == A:
-            point = 4
-        elif self.grade == A_minus:
-            point = 3.75
-        elif self.grade == B_plus:
-            point = 3.5
-        elif self.grade == B:
-            point = 3
-        elif self.grade == B_minus:
-            point = 2.75
-        elif self.grade == C_plus:
-            point = 2.5
-        elif self.grade == C:
-            point = 2
-        elif self.grade == C_minus:
+        if self.grade == Excellent:
+            point = 1.00
+        elif self.grade == Superior:
+            point = 1.25
+        elif self.grade == Meritorious:
+            point = 1.50
+        elif self.grade == Very_Good:
             point = 1.75
-        elif self.grade == D:
-            point = 1
+        elif self.grade == Good:
+            point = 2.00
+        elif self.grade == Very_Satisfactory:
+            point = 2.25
+        elif self.grade == Satisfactory:
+            point = 2.50
+        elif self.grade == Fair:
+            point = 2.75
+        elif self.grade == Passing:
+            point = 3.00
+        elif self.grade == Incomplete:
+            point = 4.00
         else:
-            point = 0
+            point = 5.00
         p += int(credit) * point
         return p
 
@@ -196,28 +193,28 @@ class TakenCourse(models.Model):
         point = 0
         for i in student:
             credit = i.course.credit
-            if i.grade == A_plus:
-                point = 4
-            elif i.grade == A:
-                point = 4
-            elif i.grade == A_minus:
-                point = 3.75
-            elif i.grade == B_plus:
-                point = 3.5
-            elif i.grade == B:
-                point = 3
-            elif i.grade == B_minus:
-                point = 2.75
-            elif i.grade == C_plus:
-                point = 2.5
-            elif i.grade == C:
-                point = 2
-            elif i.grade == C_minus:
+            if i.grade == Excellent:
+                point = 1.00
+            elif i.grade == Superior:
+                point = 1.25
+            elif i.grade == Meritorious:
+                point = 1.50
+            elif i.grade == Very_Good:
                 point = 1.75
-            elif i.grade == D:
-                point = 1
+            elif i.grade == Good:
+                point = 2.00
+            elif i.grade == Very_Satisfactory:
+                point = 2.25
+            elif i.grade == Satisfactory:
+                point = 2.50
+            elif i.grade == Fair:
+                point = 2.75
+            elif i.grade == Passing:
+                point = 3.00
+            elif i.grade == Incomplete:
+                point = 4.00
             else:
-                point = 0
+                point = 5.00
             p += int(credit) * point
         try:
             gpa = (p / total_credit_in_semester)

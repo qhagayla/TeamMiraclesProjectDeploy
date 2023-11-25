@@ -33,11 +33,8 @@
         <th>Course Title</th>
         <th>Course Code</th>
         <th>Cr.Hr(s)</th>
-        <th>Assignment</th>
-        <th>Mid exam</th>
         <th>Report</th>
         <th>Attendance</th>
-        <th>Final exam</th>
         <th>Total</th>
       </tr>
     </thead>
@@ -49,11 +46,8 @@
         <td><a href="{{ course.course.get_absolute_url }}">{{ course.course.title }}</a></td>
         <td>{{ course.course.code }}</td>
         <td>{{ course.course.credit }}</td>
-        <td>{{ course.assignment }}</td>
-        <td>{{ course.mid_exam }}</td>
         <td>{{ course.report }}</td>
         <td>{{ course.attendance }}</td>
-        <td>{{ course.final_exam }}</td>
         {% if course.total >= 45 %}
         <td class="success"><i class="fas fa-check-circle"></i> {{ course.total }}</td>
         {% else %}
@@ -75,11 +69,8 @@
         <th>Course Title</th>
         <th>Course Code</th>
         <th>Cr.Hr(s)</th>
-        <th>Assignment</th>
-        <th>Mid exam</th>
         <th>Report</th>
         <th>Attendance</th>
-        <th>Final exam</th>
         <th>Total</th>
       </tr>
     </thead>
@@ -91,11 +82,8 @@
         <td><a href="{{ course.course.get_absolute_url }}">{{ course.course.title }}</a></td>
         <td>{{ course.course.code }}</td>
         <td>{{ course.course.credit }}</td>
-        <td>{{ course.assignment }}</td>
-        <td>{{ course.mid_exam }}</td>
         <td>{{ course.report }}</td>
         <td>{{ course.attendance }}</td>
-        <td>{{ course.final_exam }}</td>
         {% if course.total >= 45 %}
         <td class="success"><i class="fas fa-check-circle"></i> {{ course.total }}</td>
         {% else %}

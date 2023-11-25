@@ -79,11 +79,8 @@
                 <tr>
                     <th>#</th>
                     <th>Student</th>
-                    <th>Assignment</th>
-                    <th>Mid exam</th>
                     <th>Report</th>
                     <th>Attendance</th>
-                    <th>Final exam</th>
                     <th>Total</th>
                     <th>Point</th>
                     <th>Grade</th>
@@ -96,19 +93,10 @@
                     <td>{{ forloop.counter }}</td>
                     <td><a href="{{ student.student.student.get_absolute_url }}">{{ student.student.student.username }}</a></td>
                     <td>
-                        <input id="assignment" type="number" name="{{ student.id }}" value="{{ student.assignment }}" width="20px">
-                    </td>
-                    <td>
-                        <input id="mid_exam" type="number" name="{{ student.id }}" value="{{ student.mid_exam }}">
-                    </td>
-                    <td>
                         <input id="report" type="number" name="{{ student.id }}" value="{{ student.report }}">
                     </td>
                     <td>
                         <input id="attendance" type="number" name="{{ student.id }}" value="{{ student.attendance }}">
-                    </td>
-                    <td>
-                        <input id="final_exam" type="number" name="{{ student.id }}" value="{{ student.final_exam }}">
                     </td>
                     <td>{{ student.total }}</td>
 

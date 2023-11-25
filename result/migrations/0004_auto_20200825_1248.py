@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='takencourse',
             name='grade',
-            field=models.CharField(blank=True, choices=[('A+', 'A+'), ('A', 'A'), ('A-', 'A-'), ('B+', 'B+'), ('B', 'B'), ('B-', 'B-'), ('C+', 'C+'), ('C', 'C'), ('C-', 'C-'), ('D', 'D'), ('F', 'F'), ('NG', 'NG')], max_length=2),
+            field=models.CharField(blank=True, choices=[('Excellent', 'Excellent'), ('Superior', 'Superior'), ('Meritorious', 'Meritorious'), ('Very Good', 'Very Good'), ('Good', 'Good'), ('Very Satisfactory', 'Very Satisfactory'), ('Satisfactory', 'Satisfactory'), ('Fair', 'Fair'), ('Passing', 'Passing'), ('Incomplete', 'Incomplete'), ('Failed', 'Failed'), ('NG', 'NG')], max_length=200),
         ),
     ]
