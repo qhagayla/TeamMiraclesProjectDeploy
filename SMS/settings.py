@@ -117,16 +117,6 @@ ASGI_APPLICATION = "SMS.asgi.application"
 # NOTE: Some model fields may not work on sqlite db,
 # so consider using postgresql instead
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": env("DB_NAME"),
-        "USER": env("DB_USER"),
-        "PASSWORD": env("DB_PASSWORD"),
-        "HOST": env("DB_HOST"),
-        "PORT": env("DB_PORT"),
-    }
-}
-DATABASES = {
     "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
 }
 
@@ -208,5 +198,4 @@ REST_FRAMEWORK = {
 }
 
 # Strip payment config
-STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
-STRIPE_PUBLISHABLE_KEY = env("STRIPE_PUBLISHABLE_KEY")
+
