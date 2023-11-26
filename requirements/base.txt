@@ -28,3 +28,4 @@ gopay==2.0.1
 
 dj_database_url
 gunicorn
+whitenoise
