@@ -27,3 +27,4 @@ stripe==5.5.0
 gopay==2.0.1
 
 dj_database_url
+gunicorn
