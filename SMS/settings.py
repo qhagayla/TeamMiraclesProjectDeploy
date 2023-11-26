@@ -14,7 +14,7 @@ import os
 import posixpath
 import environ
 import dj_database_url
-from whitenoise
+import whitenoise
 
 # Environment variables
 env = environ.Env()
