@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 import posixpath
 import environ
+import dj_database_url
 
 # Environment variables
 env = environ.Env()
@@ -124,6 +125,9 @@ DATABASES = {
         "HOST": env("DB_HOST"),
         "PORT": env("DB_PORT"),
     }
+}
+DATABASES = {
+    "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
 }
 
 # https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-DEFAULT_AUTO_FIELD

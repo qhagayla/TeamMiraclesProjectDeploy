@@ -25,3 +25,5 @@ drf-spectacular==0.25.1  # https://github.com/tfranzel/drf-spectacular
 reportlab==4.0.4
 stripe==5.5.0
 gopay==2.0.1
+
+dj_database_url
